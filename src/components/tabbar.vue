@@ -1,19 +1,19 @@
 <template>
   <cover-view class="tabbar">
     <div class="bar-item">
-      <div class="wrap">
+      <div class="wrap" @click="switchBar(indexItem.pagePath)">
         <img class="img" :src="isSelected ? indexItem.iconSelect : indexItem.iconPath" alt="">
         <span :class="{active: isSelected}">{{indexItem.text}}</span>
       </div>
     </div>
     <div class="bar-item">
-      <div class="wrap">
+      <div class="wrap" @click="goToPublish(publishItem.pagePath)">
         <img class="img" :src="publishItem.iconPath">
         <span>发布</span>
       </div>
     </div>
     <div class="bar-item">
-      <div class="wrap">
+      <div class="wrap" @click="switchBar(myItem.pagePath)">
         <img class="img" :src="!isSelected ? myItem.iconSelect : myItem.iconPath" alt="">
         <span :class="{active: !isSelected}">{{myItem.text}}</span>
       </div>
