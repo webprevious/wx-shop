@@ -34,7 +34,7 @@ export default {
         text: '首页'
       },
       myItem: {
-        tab: 1,
+        tab: 2,
         pagePath: 'pages/tabbar/my/main',
         iconPath: '/static/tabs/my.png',
         iconSelect: '/static/tabs/my-active.png',
