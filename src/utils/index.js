@@ -1,24 +1,29 @@
-function formatNumber (n) {
-  const str = n.toString()
-  return str[1] ? str : `0${str}`
-}
+import { BASE_URL } from '../config'
 
-export function formatTime (date) {
-  const year = date.getFullYear()
-  const month = date.getMonth() + 1
-  const day = date.getDate()
-
-  const hour = date.getHours()
-  const minute = date.getMinutes()
-  const second = date.getSeconds()
-
-  const t1 = [year, month, day].map(formatNumber).join('/')
-  const t2 = [hour, minute, second].map(formatNumber).join(':')
-
-  return `${t1} ${t2}`
+const request = (url, method = 'GET', data = {}) => {
+  return new Promise((resolve, reject) => {
+    wx.request({
+      data,
+      method,
+      url: BASE_URL + url,
+      header: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
+      success (res) {
+        resolve(res.data)
+      },
+      fail (err) {
+        wx.showToast({
+          title: '网络异常,请连接网络',
+          icon: 'none',
+          duration: 3000
+        })
+        reject(err)
+      }
+    })
+  })
 }
 
 export default {
-  formatNumber,
-  formatTime
+  request
 }

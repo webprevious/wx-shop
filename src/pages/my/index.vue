@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="btn-wrap">
-      <van-button type="info" @click="getMsg">发一个请求</van-button>
+      <van-button type="info" @click="getMsg">我的页面</van-button>
     </div>
   </div>
 </template>
@@ -13,9 +13,8 @@ export default {
     }
   },
   methods: {
-    async getMsg () {
-      const res = await this.$request('/test')
-      console.log(res)
+    getMsg () {
+      console.log('我的页面')
     }
   },
   created () {
