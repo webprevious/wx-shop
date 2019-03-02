@@ -1,25 +1,69 @@
 <template>
   <div>
-    <div class="btn-wrap">
-      <van-button type="info" @click="getMsg">小程序第一页面</van-button>
+    <index v-if="isSelected"></index>
+    <my v-else></my>
+    <div class="tabbar">
+      <div class="bar-item">
+        <div class="wrap" @click="switchMyTab(1)">
+          <img class="img" :src="isSelected ? indexItem.iconSelect : indexItem.iconPath" alt="">
+          <span :class="{active: isSelected}">首页</span>
+        </div>
+      </div>
+      <div class="bar-item">
+        <div class="wrap" @click="goToPublish">
+          <img class="img" :src="publishItem.iconPath">
+          <span>发布</span>
+        </div>
+      </div>
+      <div class="bar-item">
+        <div class="wrap" @click="switchMyTab(2)">
+          <img class="img" :src="!isSelected ? myItem.iconSelect : myItem.iconPath" alt="">
+          <span :class="{active: !isSelected}">我的</span>
+        </div>
+      </div>
     </div>
-    <my-tab-bar></my-tab-bar>
   </div>
 </template>
 
 <script>
-import MyTabBar from '@/components/tabbar.vue'
+import Index from '@/components/index.vue'
+import My from '@/components/my.vue'
 export default {
   data () {
     return {
+      currentTab: 1,
+      indexItem: {
+        iconPath: 'http://oss-cn-hangzhou.aliyuncs.com/public-cli/free/3eefad9fd65f77c2b388023b855bc9f41551456269.png',
+        iconSelect: 'http://oss-cn-hangzhou.aliyuncs.com/public-cli/free/04c896b7fc7932adb83e80575b456ba91551456234.png'
+      },
+      myItem: {
+        iconPath: 'http://oss-cn-hangzhou.aliyuncs.com/public-cli/free/cbd31725fce518d34d84dceab3686a431551456320.png',
+        iconSelect: 'http://oss-cn-hangzhou.aliyuncs.com/public-cli/free/9496571e12a983f67c4ab63b45ed7d611551456295.png'
+      },
+      publishItem: {
+        iconPath: 'http://oss-cn-hangzhou.aliyuncs.com/public-cli/free/61f457575be8820aac15b1af48bc4d3f1551456346.png'
+      }
     }
   },
   components: {
-    MyTabBar
+    Index,
+    My
+  },
+  computed: {
+    isSelected () {
+      return this.currentTab === 1
+    }
   },
   methods: {
-    getMsg () {
-      console.log('小程序第一页面')
+    switchMyTab (tab) {
+      if (this.currentTab !== tab) {
+        this.currentTab = tab
+      }
+    },
+    goToPublish () {
+      wx.navigateTo({
+        url: '/pages/publish/main'
+      })
     }
   },
   created () {
@@ -29,15 +73,43 @@ export default {
 </script>
 
 <style scoped>
-#tabbar {
+#app {
+  width: 750rpx;
+}
+.tabbar {
+  height: 100rpx;
+  width: 750rpx;
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
+  display: flex;
+  flex-direction: row;
+  font-size: 24rpx;
+  color: #909399;
+  border-top: 1px solid #eee;
+  z-index: 2000;
 }
-.btn-wrap,
-.url-wrap {
-  text-align: center;
-  margin: 20rpx 0;
+.tabbar .bar-item {
+  display: flex;
+  flex-direction: column;
+  width: 250rpx;
+}
+.tabbar .bar-item .wrap {
+  width: 100rpx;
+  height: 100rpx;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.tabbar .bar-item .wrap .active {
+  color: #2c6acb;
+}
+.tabbar .bar-item .wrap .img {
+  width: 50rpx;
+  height: 50rpx;
+  margin-top: 10rpx;
+  margin-bottom: 8rpx;
 }
 </style>

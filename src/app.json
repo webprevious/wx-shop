@@ -1,37 +1,18 @@
 {
   "pages": [
     "pages/home/main",
-    "pages/tabbar/index/main",
-    "pages/tabbar/publish/main",
-    "pages/tabbar/my/main"
+    "pages/publish/main",
+    "pages/mypublish/main",
+    "pages/mybuy/main",
+    "pages/goodsdetail/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
+    "navigationBarTitleText": "二手平台",
     "navigationBarTextStyle": "black"
   },
-  "tabBar": {
-    "color": "#999",
-    "backgroundColor": "#fafafa",
-    "selectedColor": "#333",
-    "borderStyle": "white",
-    "list": [{
-      "text": "首页",
-      "pagePath": "pages/tabbar/index/main",
-      "iconPath": "static/tabs/index.png",
-      "selectedIconPath": "static/tabs/index-active.png"
-    }, {
-      "text": "发布",
-      "pagePath": "pages/tabbar/publish/main",
-      "iconPath": "static/tabs/publish.png",
-      "selectedIconPath": "static/tabs/publish-active.png"
-    }, {
-      "text": "我的",
-      "pagePath": "pages/tabbar/my/main",
-      "iconPath": "static/tabs/my.png",
-      "selectedIconPath": "static/tabs/my-active.png"
-    }],
-    "position": "bottom"
+  "usingComponents": {
+    "van-button": "/static/vant-weapp/button/index"
   }
 }

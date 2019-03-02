@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="btn-wrap">
-      <van-button type="info" @click="getMsg">我的页面</van-button>
+      <van-button type="info" @click="getMsg">物品详情</van-button>
     </div>
   </div>
 </template>
