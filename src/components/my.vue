@@ -3,6 +3,7 @@
     <div class="test">{{msg}}</div>
     <van-button @click="goTo('mybuy')">我买到的</van-button>
     <van-button @click="goTo('mypublish')">我发布的</van-button>
+    <van-button @click="goTo('mycollection')">我发布的</van-button>
   </div>
 </template>
 
@@ -19,9 +20,13 @@ export default {
         wx.navigateTo({
           url: '/pages/mybuy/main'
         })
-      } else {
+      } else if (to === 'mypublish') {
         wx.navigateTo({
           url: '/pages/mypublish/main'
+        })
+      } else {
+        wx.navigateTo({
+          url: '/pages/mycollection/main'
         })
       }
     }

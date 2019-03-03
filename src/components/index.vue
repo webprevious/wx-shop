@@ -2,6 +2,7 @@
   <div>
     <div class="test" @click="test">{{msg}}</div>
     <van-button @click="goToGoodsDetail">商品详情</van-button>
+    <van-button @click="goToSearch">搜索</van-button>
   </div>
 </template>
 
@@ -19,6 +20,11 @@ export default {
     goToGoodsDetail () {
       wx.navigateTo({
         url: '/pages/goodsdetail/main'
+      })
+    },
+    goToSearch () {
+      wx.navigateTo({
+        url: '/pages/search/main'
       })
     }
   }
