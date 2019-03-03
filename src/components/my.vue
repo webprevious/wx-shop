@@ -4,6 +4,7 @@
     <van-button @click="goTo('mybuy')">我买到的</van-button>
     <van-button @click="goTo('mypublish')">我发布的</van-button>
     <van-button @click="goTo('mycollection')">我发布的</van-button>
+    <button open-type="getUserInfo" lang="zh_CN" @getuserinfo="onGotUserInfo">获取用户信息</button>
   </div>
 </template>
 
@@ -29,6 +30,11 @@ export default {
           url: '/pages/mycollection/main'
         })
       }
+    },
+    async onGotUserInfo (res) {
+      console.log(res.target.userInfo)
+      let result = await this.$request('/register', 'POST', res.target.userInfo)
+      console.log(result)
     }
   }
 }
