@@ -17,13 +17,13 @@ export default {
       console.log('我的页面')
     }
   },
-  created () {
-    // let app = getApp()
+  mounted () {
+    console.log(this.$root.$mp.query.goodsId)
   }
 }
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .btn-wrap,
 .url-wrap {
   text-align: center;

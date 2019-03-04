@@ -2,10 +2,8 @@
   <div>
     <search></search>
     <carousel></carousel>
-    <category></category>
-    <div class="test" @click="test">{{msg}}</div>
-    <van-button @click="goToGoodsDetail">商品详情</van-button>
-    <van-button @click="goToSearch">搜索</van-button>
+    <category @tabChange="tabChange"></category>
+    <goods-list></goods-list>
   </div>
 </template>
 
@@ -13,6 +11,7 @@
 import Carousel from '@/components/carousel.vue'
 import Search from '@/components/search.vue'
 import Category from '@/components/categorybar.vue'
+import GoodsList from '@/components/goodslist.vue'
 export default {
   data () {
     return {
@@ -22,27 +21,18 @@ export default {
   components: {
     Carousel,
     Search,
-    Category
+    Category,
+    GoodsList
   },
   methods: {
-    test () {
-      console.log(2)
-    },
-    goToGoodsDetail () {
-      wx.navigateTo({
-        url: '/pages/goodsdetail/main'
-      })
-    },
-    goToSearch () {
-      wx.navigateTo({
-        url: '/pages/search/main'
-      })
+    tabChange (currentTab) {
+      this.msg = currentTab
     }
   }
 }
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .test {
   color: red;
 }

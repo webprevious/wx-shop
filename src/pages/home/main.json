@@ -1,6 +1,7 @@
 {
-  "disableScroll": true,
+  "enablePullDownRefresh": true,
   "usingComponents": {
     "van-button": "/static/vant-weapp/button/index"
-  }
+  },
+  "backgroundColor": "#2c6acb"
 }

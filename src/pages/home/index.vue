@@ -72,10 +72,7 @@ export default {
 }
 </script>
 
-<style scoped>
-#app {
-  width: 750rpx;
-}
+<style scoped lang="less">
 .tabbar {
   height: 100rpx;
   width: 750rpx;
@@ -89,27 +86,28 @@ export default {
   color: #909399;
   border-top: 1px solid #eee;
   z-index: 2000;
-}
-.tabbar .bar-item {
-  display: flex;
-  flex-direction: column;
-  width: 250rpx;
-}
-.tabbar .bar-item .wrap {
-  width: 100rpx;
-  height: 100rpx;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.tabbar .bar-item .wrap .active {
-  color: #2c6acb;
-}
-.tabbar .bar-item .wrap .img {
-  width: 50rpx;
-  height: 50rpx;
-  margin-top: 10rpx;
-  margin-bottom: 8rpx;
+  background: #fff;
+  .bar-item {
+    display: flex;
+    flex-direction: column;
+    width: 250rpx;
+    .wrap {
+      width: 100rpx;
+      height: 100rpx;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .active {
+        color: #2c6acb;
+      }
+      .img {
+        width: 50rpx;
+        height: 50rpx;
+        margin-top: 10rpx;
+        margin-bottom: 8rpx;
+      }
+    }
+  }
 }
 </style>

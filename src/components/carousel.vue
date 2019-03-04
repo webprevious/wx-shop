@@ -1,16 +1,18 @@
 <template>
-  <swiper
-    :indicator-dots="swiperConfig.indicatorDots"
-    :autoplay="swiperConfig.autoplay"
-    indicator-active-color="#ffffff"
-    :circular="true"
-    class="swiper">
-    <block v-for="item in imgUrls" :key="item.id">
-      <swiper-item>
-        <img :src="item.url" class="slide-image"/>
-      </swiper-item>
-    </block>
-  </swiper>
+  <view>
+    <swiper
+      :indicator-dots="swiperConfig.indicatorDots"
+      :autoplay="swiperConfig.autoplay"
+      indicator-active-color="#ffffff"
+      :circular="true"
+      class="swiper">
+      <block v-for="item in imgUrls" :key="item.id">
+        <swiper-item>
+          <img :src="item.url" class="slide-image"/>
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
 </template>
 
 <script>
@@ -41,13 +43,13 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .swiper {
   width: 750rpx;
   height: 366rpx;
-}
-.swiper .slide-image {
-  width: 750rpx;
-  height: 366rpx;
+  .slide-image {
+    width: 750rpx;
+    height: 366rpx;
+  }
 }
 </style>
