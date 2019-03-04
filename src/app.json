@@ -10,9 +10,10 @@
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fff",
+    "navigationBarBackgroundColor": "#2c6acb",
     "navigationBarTitleText": "二手平台",
-    "navigationBarTextStyle": "black"
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#2c6acb"
   },
   "usingComponents": {
     "van-button": "/static/vant-weapp/button/index"

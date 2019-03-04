@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="box">
+    <img src="http://oss-cn-hangzhou.aliyuncs.com/public-cli/free/3f37eb058a813169eba1be6a08f9ad461551683677.jpg" class="img">
     <div class="test">{{msg}}</div>
     <van-button @click="goTo('mybuy')">我买到的</van-button>
     <van-button @click="goTo('mypublish')">我发布的</van-button>
@@ -41,7 +42,16 @@ export default {
 </script>
 
 <style scoped>
+.box {
+  position: relative;
+}
 .test {
+  position: absolute;
+  top: 0;
   color: yellow;
+}
+.img {
+  width: 100%;
+  height: 366rpx;
 }
 </style>
