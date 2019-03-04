@@ -12,7 +12,7 @@
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#2c6acb",
     "navigationBarTitleText": "二手平台",
-    "navigationBarTextStyle": "black",
+    "navigationBarTextStyle": "white",
     "backgroundColor": "#2c6acb"
   },
   "usingComponents": {
