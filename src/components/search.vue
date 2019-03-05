@@ -41,5 +41,5 @@ export default {
     top: 33rpx;
     left: 100rpx;
   }
-} 
+}
 </style>
