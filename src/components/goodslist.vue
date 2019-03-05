@@ -4,11 +4,7 @@
       <image class="goods-img" src="http://oss-cn-hangzhou.aliyuncs.com/public-cli/free/cc3d11699168c35fd5f52a8a9a38711b1551709690.jpg"></image>
       <div class="goods-title">视频标题测试测试测试测试视频标题测试测试测试测试视频标题测试测试测试测试视频标题测试测试测试测试</div>
       <div class="goods-price-and-read">
-        <div class="goods-price">
-          <text class="icon">￥</text>
-          <text class="front">9</text>
-          <text class="behind">.00</text>
-        </div>
+        <price price="888.8"></price>
         <div class="goods-dreamed">12人浏览</div>
       </div>
     </div>
@@ -19,8 +15,12 @@
 </template>
 
 <script>
+import Price from '@/components/price.vue'
 export default {
   name: 'goods-list',
+  components: {
+    Price
+  },
   methods: {
     goToGoodsDetail (goodsId) {
       wx.navigateTo({
@@ -65,16 +65,6 @@ export default {
     }
     .goods-price-and-read {
       position: relative;
-      .goods-price{
-        color: #f40;
-        .icon {
-          margin-left: 8rpx;
-          font-size: 24rpx;
-        }
-        .behind {
-          font-size: 20rpx;
-        }
-      }
       .goods-dreamed {
         font-size: 24rpx;
         color: #ccc;

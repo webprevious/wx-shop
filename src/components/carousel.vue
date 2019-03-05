@@ -7,7 +7,7 @@
       :circular="true"
       class="swiper">
       <block v-for="item in imgUrls" :key="item.id">
-        <swiper-item>
+        <swiper-item @click="goTo(item.id)">
           <img :src="item.url" class="slide-image"/>
         </swiper-item>
       </block>
@@ -38,6 +38,14 @@ export default {
           url: 'http://oss-cn-hangzhou.aliyuncs.com/public-cli/free/cdafdabf0ba98693a2c1e5a922e53e611551685353.jpg'
         }
       ]
+    }
+  },
+  methods: {
+    goTo (goodsId) {
+      console.log(goodsId)
+      wx.navigateTo({
+        url: '/pages/goodsdetail/main?goodsId=' + goodsId
+      })
     }
   }
 }

@@ -1,0 +1,44 @@
+.my-buy-wrap {
+  width: 750rpx;
+}
+.my-buy-wrap .my-buy-item {
+  width: 670rpx;
+  height: 200rpx;
+  background: #F1F1F1;
+  margin-left: 40rpx;
+  margin-top: 30rpx;
+  border-radius: 12rpx;
+  display: flex;
+  overflow: hidden;
+}
+.my-buy-wrap .my-buy-item .goods-img {
+  width: 200rpx;
+  height: 200rpx;
+}
+.my-buy-wrap .my-buy-item .goods-msg {
+  padding-left: 20rpx;
+}
+.my-buy-wrap .my-buy-item .goods-msg .goods-title {
+  font-size: 28rpx;
+  height: 100rpx;
+  line-height: 50rpx;
+  width: 440rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  word-wrap: break-word;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  padding: 4rpx;
+}
+.my-buy-wrap .my-buy-item .goods-msg .buy-time-price {
+  display: flex;
+  align-items: center;
+  height: 90rpx;
+  justify-content: space-between;
+  padding-right: 30rpx;
+  padding-left: 10rpx;
+}
+.my-buy-wrap .my-buy-item .goods-msg .buy-time-price .time {
+  font-size: 24rpx;
+}

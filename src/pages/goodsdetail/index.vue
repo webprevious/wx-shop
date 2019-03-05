@@ -10,11 +10,7 @@
         </div>
       </div>
     </div>
-    <div class="goods-price">
-      <text class="icon">￥</text>
-      <text class="front">9</text>
-      <text class="behind">.00</text>
-    </div>
+    <price price="1000"></price>
     <div class="goods-title">扫描二维码登录微信. 登录手机微信. 手机上安装并登录微信. 从“发现”，进入“扫一扫”，扫码登录微信网页版. 扫描成功. 请在手机上点击确认以登录.</div>
     <div class="goods-detail">扫描二维码登录微信. 登录手机微信. 手机上安装并登录微信. 从“发现”，进入“扫一扫”，扫码登录微信网页版. 扫描成功. 请在手机上点击确认以登录.扫描二维码登录微信. 登录手机微信. 手机上安装并登录微信. 从“发现”，进入“扫一扫”，扫码登录微信网页版. 扫描成功. 请在手机上点击确认以登录.</div>
     <div class="goods-buss">本交易支持邮寄、面交、自提</div>
@@ -31,22 +27,41 @@
       <text>猜你喜欢</text>
     </div>
     <goods-list></goods-list>
+    <div class="collection-buy-bar">
+      <div class="collection" @click="toCollection">
+        <img class="icon" :src="collectionIconUrl">
+        <text>收藏</text>
+      </div>
+      <van-button type="danger" size="small">购买</van-button>
+    </div>
   </div>
 </template>
 
 <script>
 import GoodsList from '@/components/goodslist.vue'
+import Price from '@/components/price.vue'
 export default {
   data () {
     return {
+      isCollection: false
+    }
+  },
+  computed: {
+    collectionIconUrl () {
+      return this.isCollection ? 'http://shopdev.test.upcdn.net/no-collection.png' : 'http://shopdev.test.upcdn.net/yes-collection.png'
     }
   },
   components: {
+    Price,
     GoodsList
   },
   methods: {
-    getMsg () {
-      console.log('我的页面')
+    toCollection () {
+      if (this.isCollection) {
+        this.isCollection = false
+      } else {
+        this.isCollection = true
+      }
     }
   },
   mounted () {
@@ -58,6 +73,7 @@ export default {
 <style scoped lang="less">
 .goods-detail-wrap {
   width: 750rpx;
+  padding-bottom: 100rpx;
   .publish-msg {
     display: flex;
     flex-direction: row;
@@ -80,18 +96,6 @@ export default {
         font-size: 24rpx;
         color: #909399;
       }
-    }
-  }
-  .goods-price{
-    height: 80rpx;
-    line-height: 80rpx;
-    color: #f40;
-    .icon {
-      margin-left: 8rpx;
-      font-size: 24rpx;
-    }
-    .behind {
-      font-size: 20rpx;
     }
   }
   .goods-title,
@@ -134,6 +138,30 @@ export default {
       height: 40rpx;
       width: 40rpx;
       margin-right: 20rpx;
+    }
+  }
+  .collection-buy-bar {
+    width: 750rpx;
+    height: 100rpx;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    background: #fff;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    .collection {
+      display: flex;
+      .icon {
+        width: 38rpx;
+        height: 38rpx;
+      }
+      text {
+        font-size: 32rpx;
+        padding-left: 8rpx;
+        letter-spacing: 4rpx;
+      }
     }
   }
 }
