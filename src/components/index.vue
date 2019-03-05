@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="app-home">
     <search></search>
     <carousel></carousel>
     <category @tabChange="tabChange"></category>
@@ -33,7 +33,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-.test {
-  color: red;
+.app-home {
+  padding-bottom: 100rpx;
 }
 </style>

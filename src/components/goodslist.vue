@@ -38,7 +38,7 @@ export default {
   justify-content: space-around;
   width: 750rpx;
   background: #F1F1F1;
-  padding-bottom: 160rpx;
+  padding-bottom: 30rpx;
   .goods-item {
     width: 340rpx;
     height: 490rpx;
@@ -66,7 +66,6 @@ export default {
     .goods-price-and-read {
       position: relative;
       .goods-price{
-        position: relative;
         color: #f40;
         .icon {
           margin-left: 8rpx;

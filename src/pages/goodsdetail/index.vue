@@ -1,16 +1,48 @@
 <template>
-  <div>
-    <div class="btn-wrap">
-      <van-button type="info" @click="getMsg">物品详情</van-button>
+  <div class="goods-detail-wrap">
+    <div class="publish-msg">
+      <img class="publisher-avatar" src="https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJZjQNfwkJNblWMzsLpW6W2N5xU5QUVFpRvu9zVRQSC67TRTDTBfoIibN1vaoxRBHy8AKZHWic7jdXA/132"/>
+      <div class="publisher-and-address">
+        <div class="name">测试发布者昵称</div>
+        <div class="time-and-address">
+          <text>发布于2019-03-05</text>
+          <text>江西南昌</text>
+        </div>
+      </div>
     </div>
+    <div class="goods-price">
+      <text class="icon">￥</text>
+      <text class="front">9</text>
+      <text class="behind">.00</text>
+    </div>
+    <div class="goods-title">扫描二维码登录微信. 登录手机微信. 手机上安装并登录微信. 从“发现”，进入“扫一扫”，扫码登录微信网页版. 扫描成功. 请在手机上点击确认以登录.</div>
+    <div class="goods-detail">扫描二维码登录微信. 登录手机微信. 手机上安装并登录微信. 从“发现”，进入“扫一扫”，扫码登录微信网页版. 扫描成功. 请在手机上点击确认以登录.扫描二维码登录微信. 登录手机微信. 手机上安装并登录微信. 从“发现”，进入“扫一扫”，扫码登录微信网页版. 扫描成功. 请在手机上点击确认以登录.</div>
+    <div class="goods-buss">本交易支持邮寄、面交、自提</div>
+    <div class="goods-imgs">
+      <img src="https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJZjQNfwkJNblWMzsLpW6W2N5xU5QUVFpRvu9zVRQSC67TRTDTBfoIibN1vaoxRBHy8AKZHWic7jdXA/132" class="img-item">
+      <img src="http://www.pptbz.com/d/file/p/201701/927d2f6225ff1bf414593c1c0eff0ea4.jpg" class="img-item">
+    </div>
+    <div class="publisher-introduction">
+      <div class="name">测试发布者昵称</div>
+      <div class="introduction">来自江西南昌的小男生一枚</div>
+    </div>
+    <div class="love-wrap">
+      <img src="../../../static/images/love.png" class="love-icon">
+      <text>猜你喜欢</text>
+    </div>
+    <goods-list></goods-list>
   </div>
 </template>
 
 <script>
+import GoodsList from '@/components/goodslist.vue'
 export default {
   data () {
     return {
     }
+  },
+  components: {
+    GoodsList
   },
   methods: {
     getMsg () {
@@ -24,9 +56,85 @@ export default {
 </script>
 
 <style scoped lang="less">
-.btn-wrap,
-.url-wrap {
-  text-align: center;
-  margin: 20rpx 0;
+.goods-detail-wrap {
+  width: 750rpx;
+  .publish-msg {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 120rpx;
+    padding-left: 20rpx;
+    border: 1px solid #f1f1f1;
+    .publisher-avatar {
+      width: 80rpx;
+      height: 80rpx;
+    }
+    .publisher-and-address {
+      padding-left: 30rpx;
+      .name {
+        font-size: 30rpx;
+        color: #303133;
+        padding-bottom: 8rpx;
+      }
+      .time-and-address {
+        font-size: 24rpx;
+        color: #909399;
+      }
+    }
+  }
+  .goods-price{
+    height: 80rpx;
+    line-height: 80rpx;
+    color: #f40;
+    .icon {
+      margin-left: 8rpx;
+      font-size: 24rpx;
+    }
+    .behind {
+      font-size: 20rpx;
+    }
+  }
+  .goods-title,
+  .goods-detail,
+  .goods-buss {
+    padding: 0 20rpx;
+    font-size: 32rpx;
+    line-height: 56rpx;
+    color: #303133;
+  }
+  .goods-imgs {
+    .img-item {
+      width: 710rpx;
+      padding: 0 20rpx;
+    }
+  }
+  .publisher-introduction {
+    padding: 20rpx;
+    border-top: 12rpx solid #f1f1f1;
+    border-bottom: 12rpx solid #f1f1f1;
+    .name {
+      font-size: 30rpx;
+      color: #303133;
+      padding-bottom: 8rpx;
+    }
+    .introduction {
+      font-size: 24rpx;
+      color: #909399;
+    }
+  }
+  .love-wrap {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    height: 80rpx;
+    align-items: center;
+    font-size: 26rpx;
+    color: #f40;
+    .love-icon {
+      height: 40rpx;
+      width: 40rpx;
+      margin-right: 20rpx;
+    }
+  }
 }
 </style>
