@@ -35,13 +35,13 @@ export default {
 .goods-list-wrap {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-around;
   width: 750rpx;
   background: #F1F1F1;
+  padding-bottom: 160rpx;
   .goods-item {
-    width: 345rpx;
+    width: 340rpx;
     height: 490rpx;
-    margin-left: 15rpx;
-    margin-right: 15rpx;
     margin-top: 20rpx;
     display: flex;
     flex-direction: column;

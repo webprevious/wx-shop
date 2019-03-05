@@ -6,6 +6,7 @@
     "pages/mypublish/main",
     "pages/mybuy/main",
     "pages/mycollection/main",
+    "pages/mysale/main",
     "pages/goodsdetail/main"
   ],
   "window": {

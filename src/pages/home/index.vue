@@ -33,15 +33,15 @@ export default {
     return {
       currentTab: 1,
       indexItem: {
-        iconPath: 'http://oss-cn-hangzhou.aliyuncs.com/public-cli/free/3eefad9fd65f77c2b388023b855bc9f41551456269.png',
-        iconSelect: 'http://oss-cn-hangzhou.aliyuncs.com/public-cli/free/04c896b7fc7932adb83e80575b456ba91551456234.png'
+        iconPath: 'http://shopdev.test.upcdn.net/index.png',
+        iconSelect: 'http://shopdev.test.upcdn.net/index-active.png'
       },
       myItem: {
-        iconPath: 'http://oss-cn-hangzhou.aliyuncs.com/public-cli/free/cbd31725fce518d34d84dceab3686a431551456320.png',
-        iconSelect: 'http://oss-cn-hangzhou.aliyuncs.com/public-cli/free/9496571e12a983f67c4ab63b45ed7d611551456295.png'
+        iconPath: 'http://shopdev.test.upcdn.net/my.png',
+        iconSelect: 'http://shopdev.test.upcdn.net/my-active.png'
       },
       publishItem: {
-        iconPath: 'http://oss-cn-hangzhou.aliyuncs.com/public-cli/free/61f457575be8820aac15b1af48bc4d3f1551456346.png'
+        iconPath: 'http://shopdev.test.upcdn.net/publish-active.png'
       }
     }
   },
