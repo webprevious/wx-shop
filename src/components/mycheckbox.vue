@@ -33,7 +33,7 @@ export default {
         let index = this.result.indexOf(item)
         this.result.splice(index, 1)
       }
-      this.emit('selectChange', this.result)
+      this.$emit('selectChange', this.result)
     }
   }
 }

@@ -24,6 +24,14 @@ const request = (url, method = 'GET', data = {}) => {
   })
 }
 
+const $toast = (title, icon = 'none', duration = 1500) => {
+  wx.showToast({
+    title,
+    icon,
+    duration
+  })
+}
 export default {
-  request
+  request,
+  $toast
 }
