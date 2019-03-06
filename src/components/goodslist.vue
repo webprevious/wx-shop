@@ -55,13 +55,13 @@ export default {
     .goods-title {
       font-size: 28rpx;
       height: 80rpx;
+      width: 345rpx;
       overflow: hidden;
       text-overflow: ellipsis;
       display: -webkit-box;
       word-wrap: break-word;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
-      padding: 4rpx;
     }
     .goods-price-and-read {
       position: relative;

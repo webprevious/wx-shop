@@ -27,6 +27,7 @@ export default {
   methods: {
     tabChange (currentTab) {
       this.msg = currentTab
+      this.$toast(String(currentTab))
     }
   }
 }

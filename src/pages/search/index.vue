@@ -6,28 +6,20 @@
     </div>
     <scroll-view class="scroll-view-box" scroll-y @scrolltolower="scrollToLower">
       <div class="search-recently">
-        <text class="recently-item">华为手机</text>
-        <text class="recently-item">小米手机</text>
-        <text class="recently-item">oppo</text>
-        <text class="recently-item">笔记本电脑</text>
-        <text class="recently-item">鼠标</text>
-        <text class="recently-item">键盘</text>
-        <text class="recently-item">iphone7</text>
-        <text class="recently-item">笔记本电脑</text>
-        <text class="recently-item">鼠标</text>
-        <text class="recently-item">键盘</text>
-        <text class="recently-item">iphone7</text>
-        <text class="recently-item">华为手机</text>
-        <text class="recently-item">小米手机</text>
-        <text class="recently-item">oppo</text>
-        <text class="recently-item">笔记本电脑</text>
-        <text class="recently-item">鼠标</text>
-        <text class="recently-item">键盘</text>
-        <text class="recently-item">iphone7</text>
-        <text class="recently-item">笔记本电脑</text>
-        <text class="recently-item">鼠标</text>
-        <text class="recently-item">键盘</text>
-        <text class="recently-item">iphone7</text>
+        <text class="recently-item" @click="spKeyword('华为手机')">华为手机</text>
+        <text class="recently-item" @click="spKeyword('小米手机')">小米手机</text>
+        <text class="recently-item" @click="spKeyword('oppo')">oppo</text>
+        <text class="recently-item" @click="spKeyword('笔记本电脑')">笔记本电脑</text>
+        <text class="recently-item" @click="spKeyword('鼠标')">鼠标</text>
+        <text class="recently-item" @click="spKeyword('键盘')">键盘</text>
+        <text class="recently-item" @click="spKeyword('iphone7')">iphone7</text>
+        <text class="recently-item" @click="spKeyword('华为手机')">华为手机</text>
+        <text class="recently-item" @click="spKeyword('小米手机')">小米手机</text>
+        <text class="recently-item" @click="spKeyword('oppo')">oppo</text>
+        <text class="recently-item" @click="spKeyword('笔记本电脑')">笔记本电脑</text>
+        <text class="recently-item" @click="spKeyword('鼠标')">鼠标</text>
+        <text class="recently-item" @click="spKeyword('键盘')">键盘</text>
+        <text class="recently-item" @click="spKeyword('iphone7')">iphone7</text>
       </div>
       <goods-list></goods-list>
       <div style="height:100rpx;"></div>
@@ -47,11 +39,18 @@ export default {
     GoodsList
   },
   methods: {
+    // 屏幕触底事件
     scrollToLower () {
       console.log('我的页面')
     },
+    // 输入关键字后点击键盘确定
     search () {
       console.log(this.keyword)
+    },
+    // 点击关键字
+    spKeyword (keyword) {
+      this.keyword = keyword
+      this.search()
     }
   },
   created () {
@@ -98,12 +97,14 @@ export default {
       width: 750rpx;
       padding-top: 20rpx;
       padding-left: 10rpx;
-      height: 190rpx;
       overflow: hidden;
       .recently-item {
         font-size: 24rpx;
         border-radius: 10rpx;
-        padding: 10rpx 20rpx;
+        padding-left: 20rpx;
+        padding-right: 20rpx;
+        padding-top: 18rpx;
+        padding-bottom: 20rpx;
         background:#DCDFE6;
         margin-left: 10rpx;
         margin-right: 10rpx;
