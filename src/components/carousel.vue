@@ -27,15 +27,15 @@ export default {
       imgUrls: [
         {
           id: 1,
-          url: 'http://oss-cn-hangzhou.aliyuncs.com/public-cli/free/67171751e81e65160a25c10d0e569fde1551680692.jpg'
+          url: 'http://shopdev.test.upcdn.net/test1.jpg'
         },
         {
           id: 2,
-          url: 'http://oss-cn-hangzhou.aliyuncs.com/public-cli/free/2bb8e6bad2a6a763962204ee69cb4fbc1551681228.jpg'
+          url: 'http://shopdev.test.upcdn.net/test2.jpg'
         },
         {
           id: 3,
-          url: 'http://oss-cn-hangzhou.aliyuncs.com/public-cli/free/cdafdabf0ba98693a2c1e5a922e53e611551685353.jpg'
+          url: 'http://shopdev.test.upcdn.net/test3.jpg'
         }
       ]
     }

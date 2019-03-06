@@ -2,7 +2,7 @@
   <div class="search-wrap">
     <div class="search-bar">
       <icon color="#ffffff" class="search-icon" type="search" size="20" />
-      <input class="search-input" placeholder-style="color:white;" placeholder="请输入进行搜索"/>
+      <input class="search-input" v-model="keyword" placeholder-style="color:white;" placeholder="请输入进行搜索" confirm-type="search" @confirm="search"/>
     </div>
     <scroll-view class="scroll-view-box" scroll-y @scrolltolower="scrollToLower">
       <div class="search-recently">
@@ -40,6 +40,7 @@ import GoodsList from '@/components/goodslist.vue'
 export default {
   data () {
     return {
+      keyword: ''
     }
   },
   components: {
@@ -48,6 +49,9 @@ export default {
   methods: {
     scrollToLower () {
       console.log('我的页面')
+    },
+    search () {
+      console.log(this.keyword)
     }
   },
   created () {

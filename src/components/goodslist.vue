@@ -1,7 +1,7 @@
 <template>
   <div class="goods-list-wrap">
     <div class="goods-item" @click="goToGoodsDetail(12)">
-      <image class="goods-img" src="http://oss-cn-hangzhou.aliyuncs.com/public-cli/free/cc3d11699168c35fd5f52a8a9a38711b1551709690.jpg"></image>
+      <image class="goods-img" src="http://shopdev.test.upcdn.net/test1.jpg"></image>
       <div class="goods-title">视频标题测试测试测试测试视频标题测试测试测试测试视频标题测试测试测试测试视频标题测试测试测试测试</div>
       <div class="goods-price-and-read">
         <price price="888.8"></price>
