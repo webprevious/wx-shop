@@ -4,7 +4,7 @@
       <textarea maxlength="50" v-model="goodsTitle" class="title" placeholder="请输入发布物品的标题"/>
       <textarea maxlength="-1" v-model="goodsDesc" class="goods-detail" placeholder="物品详情描述"/>
       <div class="upload-img-wrap">
-        <div class="add-icon-wrap">
+        <div class="add-icon-wrap" @click="imgsUpload">
           <img class="icon" src="../../../static/images/upload-icon.png">
         </div>
       </div>
@@ -34,6 +34,7 @@
 
 <script>
 import MyCheckbox from '@/components/mycheckbox.vue'
+import utils from '@/utils/index.js'
 export default {
   data () {
     return {
@@ -64,7 +65,8 @@ export default {
           id: 3,
           name: '日本'
         }
-      ]
+      ],
+      upyun: {}
     }
   },
   computed: {
@@ -86,14 +88,17 @@ export default {
     MyCheckbox
   },
   methods: {
+    // 分类picker回调
     CategoryPickerChange (e) {
       console.log(e)
       this.index = e.target.value
     },
+    // 交易方式回调
     bussSelectChange (value) {
       console.log(value)
       this.bussPath = value
     },
+    // 确认按钮
     comfirmPublish () {
       let inputCheck = this.inputCheck()
       if (inputCheck) {
@@ -102,6 +107,7 @@ export default {
       let data = this.createReqData()
       console.log(data)
     },
+    // 收集确认发布数据
     createReqData () {
       let data = {
         goodsTitle: this.goodsTitle,
@@ -119,6 +125,7 @@ export default {
       }
       return data
     },
+    // 填写检查
     inputCheck () {
       let err = ''
       if (!this.goodsTitle) {
@@ -133,10 +140,35 @@ export default {
         err = '请输入联系方式'
       }
       return err
+    },
+    // 上传图片
+    imgsUpload () {
+      let that = this
+      wx.chooseImage({
+        success (selectRes) {
+          console.log(selectRes)
+          utils.uploadFile(selectRes.tempFilePaths[0], that.upyun).then(res => {
+            console.log(res)
+          }).catch(err => {
+            console.log(err)
+          })
+        },
+        fail (err) {
+          console.log(err)
+        }
+      })
+    },
+    // 获取upyun签名
+    async getUpyun () {
+      const res = await this.$request('/getUpyun')
+      if (res.code) {
+        console.log(res.data)
+        this.upyun = res.data
+      }
     }
   },
-  created () {
-    // let app = getApp()
+  mounted () {
+    this.getUpyun()
   }
 }
 </script>

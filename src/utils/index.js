@@ -1,5 +1,6 @@
 import { BASE_URL } from '../config'
 
+// 封装微信请求
 const request = (url, data = {}, method = 'GET') => {
   return new Promise((resolve, reject) => {
     wx.request({
@@ -24,6 +25,7 @@ const request = (url, data = {}, method = 'GET') => {
   })
 }
 
+// 封装微信toast
 const $toast = (title, icon = 'none', duration = 1500) => {
   wx.showToast({
     title,
@@ -32,6 +34,7 @@ const $toast = (title, icon = 'none', duration = 1500) => {
   })
 }
 
+// 获取本地用户信息工具函数
 const $getLocalStorageUserInfo = () => {
   return new Promise((resolve, reject) => {
     wx.getStorage({
@@ -45,8 +48,27 @@ const $getLocalStorageUserInfo = () => {
     })
   })
 }
+
+// 封装微信文件上传
+const uploadFile = (filePath, formData) => {
+  return new Promise((resolve, reject) => {
+    wx.uploadFile({
+      url: 'https://v0.api.upyun.com/shopdev',
+      filePath,
+      name: 'file',
+      formData,
+      success (res) {
+        resolve(res)
+      },
+      fail (err) {
+        reject(err)
+      }
+    })
+  })
+}
 export default {
   request,
   $toast,
-  $getLocalStorageUserInfo
+  $getLocalStorageUserInfo,
+  uploadFile
 }
