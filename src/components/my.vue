@@ -2,10 +2,22 @@
   <div class="box">
     <user-message></user-message>
     <div class="about-my-goods">
-      <div class="item" @click="goTo('mybuy')">我买到的</div>
-      <div class="item" @click="goTo('mypublish')">我发布的</div>
-      <div class="item" @click="goTo('mycollection')">我收藏的</div>
-      <div class="item" @click="goTo('mysale')">我卖出的</div>
+      <div class="item" @click="goTo('mybuy')">
+        <img class="icon" src="../../static/images/buy-icon.png" alt="">
+        <text>我买到的</text>
+      </div>
+      <div class="item" @click="goTo('mypublish')">
+        <img class="icon" src="../../static/images/publish-icon.png" alt="">
+        <text>我发布的</text>
+      </div>
+      <div class="item" @click="goTo('mycollection')">
+        <img class="icon" src="../../static/images/collection-icon.png" alt="">
+        <text>我收藏的</text>
+      </div>
+      <div class="item" @click="goTo('mysale')">
+        <img class="icon" src="../../static/images/sale-icon.png" alt="">
+        <text>我卖出的</text>
+      </div>
     </div>
   </div>
 </template>
@@ -60,10 +72,13 @@ export default {
       line-height: 80rpx;
       color: #606266;
       font-size: 30rpx;
-      padding-left: 40rpx;
+      padding-left: 26rpx;
+      padding-right: 14rpx;
       width: 630rpx;
       position: relative;
       border-bottom: 1px solid #ccc;
+      display: flex;
+      align-items: center;
       &:last-child {
         border-bottom: none;
       }
@@ -80,6 +95,11 @@ export default {
       }
       &:active {
         background: rgb(218, 213, 213);
+      }
+      .icon {
+        width: 40rpx;
+        height: 40rpx;
+        margin-right: 10rpx;
       }
     }
   }

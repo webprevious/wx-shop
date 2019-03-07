@@ -32,7 +32,7 @@
         <img class="icon" :src="collectionIconUrl">
         <text>收藏</text>
       </div>
-      <van-button type="danger" size="small">购买</van-button>
+      <van-button @click="buyGoods" type="danger" size="small">购买</van-button>
     </div>
   </div>
 </template>
@@ -56,12 +56,17 @@ export default {
     GoodsList
   },
   methods: {
+    // 收藏按钮
     toCollection () {
       if (this.isCollection) {
         this.isCollection = false
       } else {
         this.isCollection = true
       }
+    },
+    // 购买按钮
+    buyGoods () {
+      console.log(this.$root.$mp.query.goodsId)
     }
   },
   mounted () {
