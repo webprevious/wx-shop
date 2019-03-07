@@ -1,18 +1,18 @@
 <template>
   <div class="user-msg-wrap">
-    <div class="user-content" v-if="false">
+    <div class="user-content" v-if="isLogin">
       <div class="nickname-and-address">
-        <div class="nickname">XXXx</div>
-        <div class="address">江西南昌</div>
+        <div class="nickname">{{userInfo.nickName}}</div>
+        <div class="address">{{userInfo.province + userInfo.city}}</div>
       </div>
       <div class="sign-wrap">
-        <img class="sign-icon" src="../../static/images/sign.png" v-if="false">
+        <img class="sign-icon" src="../../static/images/sign.png" v-if="sign.isSignedSuccess">
         <div class="van-btn" v-else>
-          <van-button :loading="sign.signIsloading" type="info" size="small" loading-text="签到中...">签到</van-button>
+          <van-button :loading="sign.signIsloading" type="info" size="small" loading-text="签到中..." @click="toSinged">签到</van-button>
         </div>
       </div>
       <div class="avatar-wrap">
-        <img class="avatar" src="https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJZjQNfwkJNblWMzsLpW6W2N5xU5QUVFpRvu9zVRQSC67TRTDTBfoIibN1vaoxRBHy8AKZHWic7jdXA/132"/>
+        <img class="avatar" :src="userInfo.avatarUrl"/>
       </div>
     </div>
     <div class="login-btn-content" v-else>
@@ -26,17 +26,64 @@ export default {
   name: 'user-msg',
   data () {
     return {
+      isLogin: false,
+      userInfo: {},
       sign: {
-        signIsloading: false
+        signIsloading: false,
+        isSignedSuccess: false
       }
     }
   },
   methods: {
+    // 注册和登录一体
     async onGotUserInfo (res) {
-      console.log(res.target.userInfo)
-      let result = await this.$request('/register', 'POST', res.target.userInfo)
-      console.log(result)
+      let wxUserInfo = res.target.userInfo
+      let result = await this.$request('/register', wxUserInfo, 'POST')
+      if (result.code) {
+        // 注册成功就进行登录接口访问
+        let result = await this.$request('/getUserInfo', { nickName: wxUserInfo.nickName })
+        if (result.code) {
+          this.userInfo = result.data
+          this.isLogin = true
+          // 登录成功存储用户信息到localStorage
+          wx.setStorage({
+            key: 'userInfo',
+            data: JSON.stringify(result.data)
+          })
+        }
+      }
+    },
+    // 签到
+    async toSinged () {
+      this.sign.signIsloading = true
+      let result = await this.$request('/signed', { userId: this.userInfo._id }, 'POST')
+      if (result.code) {
+        this.sign.signIsloading = false
+        this.sign.isSignedSuccess = true
+      } else {
+        this.sign.signIsloading = false
+      }
+    },
+    // 判断当天是否签过到
+    async judgeSignedToday () {
+      const res = await this.$request('/isSignedToday', { userId: this.userInfo._id })
+      if (res.code) {
+        this.sign.isSignedSuccess = res.data.todayIsSigned
+      }
     }
+  },
+  mounted () {
+    this.$getLocalStorageUserInfo().then(res => {
+      console.log(res)
+      // 有用户信息说明已经登录
+      this.userInfo = res
+      // 判断是否签过到
+      this.judgeSignedToday()
+      // 登录和未登录两个界面切换
+      this.isLogin = true
+    }).catch(err => {
+      console.log(err)
+    })
   }
 }
 </script>

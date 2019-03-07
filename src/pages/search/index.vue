@@ -88,7 +88,6 @@ export default {
   .scroll-view-box {
     width: 750rpx;
     height: 100vh;
-    white-space: nowrap;
     background: #F1F1F1;
     .search-recently {
       display: flex;

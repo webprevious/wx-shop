@@ -1,6 +1,6 @@
 import { BASE_URL } from '../config'
 
-const request = (url, method = 'GET', data = {}) => {
+const request = (url, data = {}, method = 'GET') => {
   return new Promise((resolve, reject) => {
     wx.request({
       data,
@@ -31,7 +31,22 @@ const $toast = (title, icon = 'none', duration = 1500) => {
     duration
   })
 }
+
+const $getLocalStorageUserInfo = () => {
+  return new Promise((resolve, reject) => {
+    wx.getStorage({
+      key: 'userInfo',
+      success (res) {
+        resolve(JSON.parse(res.data))
+      },
+      fail (err) {
+        reject(err)
+      }
+    })
+  })
+}
 export default {
   request,
-  $toast
+  $toast,
+  $getLocalStorageUserInfo
 }
