@@ -147,7 +147,11 @@ export default {
       wx.chooseImage({
         success (selectRes) {
           console.log(selectRes)
-          utils.uploadFile(selectRes.tempFilePaths[0], that.upyun).then(res => {
+          let promiseArr = []
+          selectRes.tempFilePaths.forEach(item => {
+            promiseArr.push(utils.uploadFile(item, that.upyun))
+          })
+          Promise.all(promiseArr).then(res => {
             console.log(res)
           }).catch(err => {
             console.log(err)
