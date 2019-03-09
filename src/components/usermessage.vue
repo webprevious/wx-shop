@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   name: 'user-msg',
   data () {
@@ -50,6 +51,7 @@ export default {
             key: 'userInfo',
             data: JSON.stringify(result.data)
           })
+          this.saveUserInfo(result.data)
         }
       }
     },
@@ -70,7 +72,8 @@ export default {
       if (res.code) {
         this.sign.isSignedSuccess = res.data.todayIsSigned
       }
-    }
+    },
+    ...mapActions(['saveUserInfo'])
   },
   mounted () {
     this.$getLocalStorageUserInfo().then(res => {
