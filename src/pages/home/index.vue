@@ -28,6 +28,7 @@
 <script>
 import Index from '@/components/index.vue'
 import My from '@/components/my.vue'
+import { mapState } from 'vuex'
 export default {
   data () {
     return {
@@ -50,24 +51,33 @@ export default {
     My
   },
   computed: {
+    // 计算选中的是首页还是我的
     isSelected () {
       return this.currentTab === 1
-    }
+    },
+    ...mapState({
+      userInfo: state => state.userInfo.userInfo
+    })
   },
   methods: {
+    // tab切换
     switchMyTab (tab) {
       if (this.currentTab !== tab) {
         this.currentTab = tab
       }
     },
+    // 点击发布按钮，检查是否进行登录，没有登录跳转到登录提示登录
     goToPublish () {
-      wx.navigateTo({
-        url: '/pages/publish/main'
-      })
+      console.log(this.userInfo)
+      if (this.userInfo) {
+        wx.navigateTo({
+          url: '/pages/publish/main'
+        })
+      } else {
+        this.currentTab = 2
+        this.$toast('请您先登录')
+      }
     }
-  },
-  created () {
-    // let app = getApp()
   }
 }
 </script>
