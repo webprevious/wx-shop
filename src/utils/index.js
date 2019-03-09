@@ -66,9 +66,34 @@ const uploadFile = (filePath, formData) => {
     })
   })
 }
+
+// 封装微信本地存储
+const $setLocalStorage = (key, data) => {
+  wx.setStorage({
+    key,
+    data: JSON.stringify(data)
+  })
+}
+
+const $getLocalStorage = (key) => {
+  return new Promise((resolve, reject) => {
+    wx.getStorage({
+      key,
+      success (res) {
+        resolve(JSON.parse(res.data))
+      },
+      fail (err) {
+        reject(err)
+      }
+    })
+  })
+}
+
 export default {
   request,
   $toast,
   $getLocalStorageUserInfo,
-  uploadFile
+  uploadFile,
+  $getLocalStorage,
+  $setLocalStorage
 }
