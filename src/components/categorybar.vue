@@ -1,26 +1,13 @@
 <template>
   <scroll-view class="scroll-view-box" scroll-x>
-    <view id="green" class="scroll-item" >
+    <view id="red" class="scroll-item">
       <text :class="currentTab===1 ? 'active' : ''" @click="toggleTab(1)">推荐</text>
     </view>
-    <view id="red" class="scroll-item">
-      <text :class="currentTab===2 ? 'active' : ''" @click="toggleTab(2)">笔记本电脑</text>
-    </view>
-    <view id="yellow" class="scroll-item">
-      <text :class="currentTab===3 ? 'active' : ''" @click="toggleTab(3)">手机</text>
-    </view>
-    <view id="blue" class="scroll-item">
-      <text :class="currentTab===4 ? 'active' : ''" @click="toggleTab(4)">耳机</text>
-    </view>
-    <view id="blue1" class="scroll-item">
-      <text :class="currentTab===5 ? 'active' : ''" @click="toggleTab(5)">鼠标</text>
-    </view>
-    <view id="blue2" class="scroll-item">
-      <text :class="currentTab===6 ? 'active' : ''" @click="toggleTab(6)">键盘</text>
-    </view>
-    <view id="blue3" class="scroll-item">
-      <text :class="currentTab===7 ? 'active' : ''" @click="toggleTab(7)">吹风机</text>
-    </view>
+    <block v-for="(item,index) in categoryArray" :key="index">
+      <view id="green" class="scroll-item" >
+        <text :class="currentTab===item.categoryId ? 'active' : ''" @click="toggleTab(item.categoryId)">{{item.name}}</text>
+      </view>
+    </block>
   </scroll-view>
 </template>
 
@@ -30,14 +17,29 @@ export default {
   data () {
     return {
       currentTab: 1,
-      active: [true]
+      categoryArray: []
     }
   },
   methods: {
+    // 点击切换分类
     toggleTab (tab) {
       this.$emit('tabChange', tab)
       this.currentTab = tab
+    },
+    // 获取分类列表
+    async getCategory () {
+      const res = await this.$request('/getGoodsCateory')
+      console.log(res)
+      res.data.forEach(item => {
+        this.categoryArray.push({
+          categoryId: item._id,
+          name: item.title
+        })
+      })
     }
+  },
+  mounted () {
+    this.getCategory()
   }
 }
 </script>
