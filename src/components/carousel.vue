@@ -24,29 +24,35 @@ export default {
         indicatorDots: true,
         autoplay: true
       },
-      imgUrls: [
-        {
-          id: 1,
-          url: 'http://shopdev.test.upcdn.net/test1.jpg'
-        },
-        {
-          id: 2,
-          url: 'http://shopdev.test.upcdn.net/test2.jpg'
-        },
-        {
-          id: 3,
-          url: 'http://shopdev.test.upcdn.net/test3.jpg'
-        }
-      ]
+      imgUrls: []
     }
   },
   methods: {
+    // 点击广告轮播图进行跳转到相应商品
     goTo (goodsId) {
       console.log(goodsId)
       wx.navigateTo({
         url: '/pages/goodsdetail/main?goodsId=' + goodsId
       })
+    },
+    // 获取轮播图
+    async getCarousel () {
+      const res = await this.$request('/getAdCarousel')
+      if (res.code) {
+        console.log(res)
+        res.data.forEach(item => {
+          this.imgUrls.push({
+            id: item.goodsId,
+            url: item.adImgUrl
+          })
+        })
+      } else {
+        this.$toast('网络错误')
+      }
     }
+  },
+  mounted () {
+    this.getCarousel()
   }
 }
 </script>
