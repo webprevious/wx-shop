@@ -45,6 +45,9 @@ export default {
         let result = await this.$request('/getUserInfo', { nickName: wxUserInfo.nickName })
         if (result.code) {
           this.userInfo = result.data
+          // 判断是否签过到
+          this.judgeSignedToday()
+          // 显示登录界面
           this.isLogin = true
           // 登录成功存储用户信息到localStorage
           wx.setStorage({
