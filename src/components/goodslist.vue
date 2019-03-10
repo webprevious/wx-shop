@@ -1,16 +1,18 @@
 <template>
-  <div class="goods-list-wrap">
-    <div class="goods-item" @click="goToGoodsDetail(12)">
-      <image class="goods-img" src="http://shopdev.test.upcdn.net/test1.jpg"></image>
-      <div class="goods-title">视频标题测试测试测试测试视频标题测试测试测试测试视频标题测试测试测试测试视频标题测试测试测试测试</div>
-      <div class="goods-price-and-read">
-        <price price="888.8"></price>
-        <div class="goods-dreamed">12人浏览</div>
+  <div>
+    <div class="goods-list-wrap" v-if="goodsLists.length">
+      <div v-for="(item,index) in goodsLists" :key="index" class="goods-item" @click="goToGoodsDetail(item._id)">
+        <image class="goods-img" :src="item.goodsFirstPic"></image>
+        <div class="goods-title">{{item.goodsTitle}}</div>
+        <div class="goods-price-and-read">
+          <price :price="String(item.goodsPrice)"></price>
+          <div class="goods-dreamed">浏览{{item.goodsViewTimes}}次</div>
+        </div>
       </div>
     </div>
-    <div class="goods-item">1</div>
-    <div class="goods-item">1</div>
-    <div class="goods-item">1</div>
+    <div class="no-goods" v-else>
+      暂无数据
+    </div>
   </div>
 </template>
 
@@ -21,8 +23,16 @@ export default {
   components: {
     Price
   },
+  props: {
+    goodsLists: {
+      type: Array,
+      default: []
+    }
+  },
   methods: {
-    goToGoodsDetail (goodsId) {
+    async goToGoodsDetail (goodsId) {
+      const res = this.$request('/addGoodsViewTimes', { goodsId }, 'POST')
+      console.log(res)
       wx.navigateTo({
         url: '/pages/goodsdetail/main?goodsId=' + goodsId
       })
@@ -74,5 +84,12 @@ export default {
       }
     }
   }
+}
+.no-goods {
+  height: 100rpx;
+  line-height: 100rpx;
+  text-align: center;
+  font-size: 28rpx;
+  color: #ccc;
 }
 </style>
