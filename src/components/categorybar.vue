@@ -23,6 +23,10 @@ export default {
   methods: {
     // 点击切换分类
     toggleTab (tab) {
+      // 点击当前tab不触发
+      if (this.currentTab === tab) {
+        return
+      }
       this.$emit('tabChange', tab)
       this.currentTab = tab
     },
