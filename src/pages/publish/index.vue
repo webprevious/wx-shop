@@ -108,6 +108,9 @@ export default {
       if (this.uploadSuccessImgsUrl.length) {
         data.goodsPics = this.uploadSuccessImgsUrl
       }
+      if (this.uploadSuccessImgsUrl.length) {
+        data.goodsFirstPic = this.uploadSuccessImgsUrl[0]
+      }
       if (this.qq) {
         data.goodsConnQq = this.qq
       }
@@ -126,6 +129,8 @@ export default {
         err = '请输入物品标题'
       } else if (!this.goodsDesc) {
         err = '请输入物品描述'
+      } else if (!this.wxLocalImgUrls.length) {
+        err = '请上传物品图片'
       } else if (!this.goodsPrice) {
         err = '请输入物品价格'
       } else if (this.categoryIndex === 0) {
@@ -274,6 +279,7 @@ export default {
         height: 210rpx;
         border: 2px solid #ccc;
         border-radius: 12rpx;
+        margin-bottom: 20rpx;
         .icon {
           width: 48rpx;
           height: 48rpx;
@@ -284,6 +290,7 @@ export default {
         width: 210rpx;
         height: 210rpx;
         border-radius: 12rpx;
+        margin-bottom: 20rpx;
         .img {
           width: 210rpx;
           height: 210rpx;
