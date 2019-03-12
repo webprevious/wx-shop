@@ -83,14 +83,22 @@ export default {
   methods: {
     // 收藏按钮
     toCollection () {
+      if (!this.userInfo) {
+        return this.$toast('请先登录')
+      }
       if (this.isCollection) {
+        // 取消收藏
         this.isCollection = false
       } else {
+        // 确认收藏
         this.isCollection = true
       }
     },
     // 购买按钮
     buyGoods () {
+      if (!this.userInfo) {
+        return this.$toast('请先登录')
+      }
       console.log(this.oneGoodsMessage)
     },
     // 获取猜你喜欢
@@ -101,6 +109,7 @@ export default {
     }
   },
   mounted () {
+    // 未登录不会执行
     this.getLove()
   }
 }
