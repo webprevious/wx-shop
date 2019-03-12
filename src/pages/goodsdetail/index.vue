@@ -141,11 +141,21 @@ export default {
       const res = await this.$request('/getUserLove', {userId: this.userInfo._id}, 'POST')
       this.goodsLists = res.data
       // console.log(this.goodsLists)
+    },
+    // 检查是否已经收藏
+    async checkStore () {
+      const res = await this.$request('/judgeStore', { goodsId: this.oneGoodsMessage._id, storeMan: this.userInfo._id }, 'POST')
+      if (res.code) {
+        this.isCollection = res.data.isStore
+      } else {
+        this.isCollection = false
+      }
     }
   },
   mounted () {
     // 未登录不会执行
     this.getLove()
+    this.checkStore()
   }
 }
 </script>
