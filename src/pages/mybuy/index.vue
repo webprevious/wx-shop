@@ -1,82 +1,56 @@
 <template>
   <div class="my-buy-wrap">
-    <div class="my-buy-item">
-      <img class="goods-img" src="https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJZjQNfwkJNblWMzsLpW6W2N5xU5QUVFpRvu9zVRQSC67TRTDTBfoIibN1vaoxRBHy8AKZHWic7jdXA/132"/>
+    <div class="my-buy-item" v-for="(item, index) in myBuyArray" :key="index">
+      <img class="goods-img" :src="item.goodsFirstPic"/>
       <div class="goods-msg">
-        <div class="goods-title">商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题</div>
+        <div class="goods-title">{{item.goodsTitle}}</div>
         <div class="buy-time-price">
-          <div class="time">购买于2019-03-06</div>
-          <price price="999.9"></price>
+          <div class="time">购买于{{item.publishAt}}</div>
+          <price :price="String(item.goodsPrice)"></price>
         </div>
       </div>
     </div>
+    <div class="not-data" v-show="!myBuyArray.length">暂无数据</div>
   </div>
 </template>
 
 <script>
 import Price from '@/components/price.vue'
+import { mapState } from 'vuex'
 export default {
   data () {
     return {
+      myBuyArray: []
     }
+  },
+  computed: {
+    ...mapState({
+      userInfo: state => state.userInfo.userInfo
+    })
   },
   components: {
     Price
   },
   methods: {
-    getMsg () {
-      console.log('我的页面')
+    // 获取我购买到的物品列表
+    async getMyBuy () {
+      const res = await this.$request('/getMyBuy', {userId: this.userInfo._id}, 'POST')
+      if (res.code) {
+        this.myBuyArray = res.data.map(item => {
+          item.publishAt = item.publishAt.slice(0, 10)
+          return item
+        })
+      } else {
+        this.myBuyArray = []
+      }
     }
   },
-  created () {
-    // let app = getApp()
+  mounted () {
+    this.getMyBuy()
   }
 }
 </script>
 
 <style lang="less" scoped>
-.my-buy-wrap {
-  width: 750rpx;
-  .my-buy-item {
-    width: 670rpx;
-    height: 200rpx;
-    background: #F1F1F1;
-    margin-left: 40rpx;
-    margin-top: 30rpx;
-    border-radius: 12rpx;
-    display: flex;
-    overflow: hidden;
-    .goods-img {
-      width: 200rpx;
-      height: 200rpx;
-    }
-    .goods-msg {
-      padding-left: 20rpx;
-      .goods-title {
-        font-size: 28rpx;
-        height: 100rpx;
-        line-height: 50rpx;
-        width: 440rpx;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        word-wrap: break-word;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        padding: 4rpx;
-      }
-      .buy-time-price {
-        display: flex;
-        align-items: center;
-        height: 90rpx;
-        justify-content: space-between;
-        padding-right: 30rpx;
-        padding-left: 10rpx;
-        .time {
-          font-size: 24rpx;
-        }
-      }
-    }
-  }
-}
+@import "~@/utils/common.less";
 </style>
