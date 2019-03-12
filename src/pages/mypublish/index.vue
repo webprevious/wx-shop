@@ -10,6 +10,7 @@
         </div>
       </div>
     </div>
+    <div class="not-data" v-show="!myPublishArray.length">暂无数据</div>
   </div>
 </template>
 
