@@ -1,32 +1,31 @@
 <template>
   <div class="goods-detail-wrap">
     <div class="publish-msg">
-      <img class="publisher-avatar" src="https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJZjQNfwkJNblWMzsLpW6W2N5xU5QUVFpRvu9zVRQSC67TRTDTBfoIibN1vaoxRBHy8AKZHWic7jdXA/132"/>
+      <img class="publisher-avatar" :src="oneGoodsMessage.publisherId.avatarUrl"/>
       <div class="publisher-and-address">
-        <div class="name">测试发布者昵称</div>
+        <div class="name">{{oneGoodsMessage.publisherId.nickName}}</div>
         <div class="time-and-address">
-          <text>发布于2019-03-05</text>
-          <text>江西南昌</text>
+          <text>发布于{{oneGoodsMessage.publishAt}}</text>
+          <text>{{oneGoodsMessage.publisherId.province + oneGoodsMessage.publisherId.city}}</text>
         </div>
       </div>
     </div>
-    <price price="1000"></price>
-    <div class="goods-title">扫描二维码登录微信. 登录手机微信. 手机上安装并登录微信. 从“发现”，进入“扫一扫”，扫码登录微信网页版. 扫描成功. 请在手机上点击确认以登录.</div>
-    <div class="goods-detail">扫描二维码登录微信. 登录手机微信. 手机上安装并登录微信. 从“发现”，进入“扫一扫”，扫码登录微信网页版. 扫描成功. 请在手机上点击确认以登录.扫描二维码登录微信. 登录手机微信. 手机上安装并登录微信. 从“发现”，进入“扫一扫”，扫码登录微信网页版. 扫描成功. 请在手机上点击确认以登录.</div>
-    <div class="goods-buss">本交易支持邮寄、面交、自提</div>
+    <price :price="String(oneGoodsMessage.goodsPrice)"></price>
+    <div class="goods-title">{{oneGoodsMessage.goodsTitle}}</div>
+    <div class="goods-detail">{{oneGoodsMessage.goodsDetailMsg}}</div>
+    <div class="goods-buss">本交易支持{{bussPath}}</div>
     <div class="goods-imgs">
-      <img src="https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJZjQNfwkJNblWMzsLpW6W2N5xU5QUVFpRvu9zVRQSC67TRTDTBfoIibN1vaoxRBHy8AKZHWic7jdXA/132" class="img-item">
-      <img src="http://www.pptbz.com/d/file/p/201701/927d2f6225ff1bf414593c1c0eff0ea4.jpg" class="img-item">
+      <img v-for="(item,index) in goodsImgs" :src="item" :key="index" class="img-item" mode="widthFix" :lazy-load="true">
     </div>
     <div class="publisher-introduction">
-      <div class="name">测试发布者昵称</div>
-      <div class="introduction">来自江西南昌的小男生一枚</div>
+      <div class="name">{{oneGoodsMessage.publisherId.nickName}}</div>
+      <div class="introduction">来自{{oneGoodsMessage.publisherId.province + oneGoodsMessage.publisherId.city}}的{{oneGoodsMessage.publisherId.gender === '1' ? '小男生' : '小天仙'}}一枚</div>
     </div>
     <div class="love-wrap">
       <img src="../../../static/images/love.png" class="love-icon">
       <text>猜你喜欢</text>
     </div>
-    <goods-list></goods-list>
+    <goods-list :goodsLists="goodsLists" direction="detail"></goods-list>
     <div class="collection-buy-bar">
       <div class="collection" @click="toCollection">
         <img class="icon" :src="collectionIconUrl">
@@ -40,16 +39,42 @@
 <script>
 import GoodsList from '@/components/goodslist.vue'
 import Price from '@/components/price.vue'
+import { mapState } from 'vuex'
 export default {
   data () {
     return {
-      isCollection: false
+      // 收藏按钮样式控制
+      isCollection: false,
+      // 传入物品列表组件的数组
+      goodsLists: []
     }
   },
   computed: {
+    // 计算收藏icon
     collectionIconUrl () {
-      return this.isCollection ? 'http://shopdev.test.upcdn.net/no-collection.png' : 'http://shopdev.test.upcdn.net/yes-collection.png'
-    }
+      return this.isCollection ? 'http://shopdev.test.upcdn.net/yes-collection.png' : 'http://shopdev.test.upcdn.net/no-collection.png'
+    },
+    // 计算图片数组
+    goodsImgs () {
+      return this.oneGoodsMessage.goodsPics[0].split(',')
+    },
+    // 计算交易方式
+    bussPath () {
+      let obj = {
+        'byself': '自提',
+        'byexpress': '邮寄',
+        'byboth': '面交'
+      }
+      let bussArray = this.oneGoodsMessage.goodsBussPath[0].split(',')
+      let strArray = bussArray.map(item => {
+        return obj[item]
+      })
+      return strArray.join('、')
+    },
+    ...mapState({
+      oneGoodsMessage: state => state.goods.oneGoodsMessage,
+      userInfo: state => state.userInfo.userInfo
+    })
   },
   components: {
     Price,
@@ -66,11 +91,17 @@ export default {
     },
     // 购买按钮
     buyGoods () {
-      console.log(this.$root.$mp.query.goodsId)
+      console.log(this.oneGoodsMessage)
+    },
+    // 获取猜你喜欢
+    async getLove () {
+      const res = await this.$request('/getUserLove', {userId: this.userInfo._id}, 'POST')
+      this.goodsLists = res.data
+      // console.log(this.goodsLists)
     }
   },
   mounted () {
-    console.log(this.$root.$mp.query.goodsId)
+    this.getLove()
   }
 }
 </script>
