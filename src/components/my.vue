@@ -24,17 +24,26 @@
 
 <script>
 import UserMessage from '@/components/usermessage.vue'
+import { mapState } from 'vuex'
 export default {
   data () {
     return {
-      msg: '我的'
     }
+  },
+  computed: {
+    ...mapState({
+      userInfo: state => state.userInfo.userInfo
+    })
   },
   components: {
     UserMessage
   },
   methods: {
     goTo (to) {
+      // 检查是否登录
+      if (!this.userInfo) {
+        return this.$toast('请先登录')
+      }
       if (to === 'mybuy') {
         wx.navigateTo({
           url: '/pages/mybuy/main'
