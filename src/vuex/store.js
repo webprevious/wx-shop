@@ -1,13 +1,15 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import userInfo from './userinfo'
+import goods from './goods'
 import utils from '@/utils/index.js'
 
 Vue.use(Vuex)
 
 let store = new Vuex.Store({
   modules: {
-    userInfo
+    userInfo,
+    goods
   }
 })
 
@@ -19,6 +21,7 @@ store.subscribe((mutation, state) => {
 async function initVuex () {
   let oldVuexStore = await utils.$getLocalStorage('store')
   store.dispatch('initUserInfo', oldVuexStore.userInfo)
+  store.dispatch('initGoods', oldVuexStore.goods)
 }
 
 initVuex()
