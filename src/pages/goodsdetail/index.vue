@@ -150,9 +150,16 @@ export default {
       } else {
         this.isCollection = false
       }
+    },
+    // 初始化数据
+    initData () {
+      this.isCollection = false
+      this.goodsLists = []
     }
   },
   mounted () {
+    // 初始化
+    this.initData()
     // 未登录不会执行
     this.getLove()
     this.checkStore()
