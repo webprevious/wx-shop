@@ -26,8 +26,7 @@ export default {
   },
   methods: {
     // 父组件收到子组件的tab切换回调
-    async tabChange (currentTab) {
-      this.$toast(String(currentTab))
+    tabChange (currentTab) {
       this.getGoodsByTab(currentTab)
     },
     // 根据tab获取该tab下的商品
