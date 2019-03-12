@@ -6,22 +6,9 @@
     </div>
     <scroll-view class="scroll-view-box" scroll-y @scrolltolower="scrollToLower">
       <div class="search-recently">
-        <text class="recently-item" @click="spKeyword('华为手机')">华为手机</text>
-        <text class="recently-item" @click="spKeyword('小米手机')">小米手机</text>
-        <text class="recently-item" @click="spKeyword('oppo')">oppo</text>
-        <text class="recently-item" @click="spKeyword('笔记本电脑')">笔记本电脑</text>
-        <text class="recently-item" @click="spKeyword('鼠标')">鼠标</text>
-        <text class="recently-item" @click="spKeyword('键盘')">键盘</text>
-        <text class="recently-item" @click="spKeyword('iphone7')">iphone7</text>
-        <text class="recently-item" @click="spKeyword('华为手机')">华为手机</text>
-        <text class="recently-item" @click="spKeyword('小米手机')">小米手机</text>
-        <text class="recently-item" @click="spKeyword('oppo')">oppo</text>
-        <text class="recently-item" @click="spKeyword('笔记本电脑')">笔记本电脑</text>
-        <text class="recently-item" @click="spKeyword('鼠标')">鼠标</text>
-        <text class="recently-item" @click="spKeyword('键盘')">键盘</text>
-        <text class="recently-item" @click="spKeyword('iphone7')">iphone7</text>
+        <text class="recently-item" v-for="(item,index) in searchKeyword" :key="index" @click="spKeyword(item)">{{item}}</text>
       </div>
-      <goods-list></goods-list>
+      <goods-list :goodsLists="goodsLists"></goods-list>
       <div style="height:100rpx;"></div>
     </scroll-view>
   </div>
@@ -29,11 +16,20 @@
 
 <script>
 import GoodsList from '@/components/goodslist.vue'
+import { mapState, mapActions } from 'vuex'
 export default {
   data () {
     return {
-      keyword: ''
+      keyword: '',
+      goodsLists: [],
+      // 暂存本地
+      keywordHistory: []
     }
+  },
+  computed: {
+    ...mapState({
+      searchKeyword: state => state.search.searchKeyword
+    })
   },
   components: {
     GoodsList
@@ -44,17 +40,32 @@ export default {
       console.log('我的页面')
     },
     // 输入关键字后点击键盘确定
-    search () {
-      console.log(this.keyword)
+    async search () {
+      // console.log(this.keyword)
+      if (this.keyword) {
+        const res = await this.$request('/search', {keyword: this.keyword}, 'POST')
+        this.goodsLists = res.data
+        // 判断是否已存在,不存在就存进去
+        if (!this.keywordHistory.includes(this.keyword)) {
+          this.keywordHistory.push(this.keyword)
+          this.saveKeyword(this.keywordHistory)
+        }
+      } else {
+        this.$toast('请输入关键字')
+      }
     },
     // 点击关键字
     spKeyword (keyword) {
       this.keyword = keyword
       this.search()
-    }
+    },
+    ...mapActions(['saveKeyword'])
   },
-  created () {
-    // let app = getApp()
+  mounted () {
+    console.log(this.searchKeyword)
+    this.keywordHistory = this.searchKeyword
+    this.keyword = ''
+    this.goodsLists = []
   }
 }
 </script>
