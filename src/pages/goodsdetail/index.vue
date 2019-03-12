@@ -82,24 +82,59 @@ export default {
   },
   methods: {
     // 收藏按钮
-    toCollection () {
+    async toCollection () {
+      // 收藏之前检查是否登录
       if (!this.userInfo) {
         return this.$toast('请先登录')
+      }
+      // 收藏之前判断这个物品是否是自己发布的，不能收藏自己的
+      if (this.oneGoodsMessage.publisherId === this.userInfo._id) {
+        return this.$toast('不能收藏自己的物品')
       }
       if (this.isCollection) {
         // 取消收藏
-        this.isCollection = false
+        const res = await this.$request('/storeGoods', { goodsId: this.oneGoodsMessage._id, storeMan: this.userInfo._id, isStore: false }, 'POST')
+        if (res.code) {
+          this.isCollection = false
+        } else {
+          this.$toast('取消收藏失败')
+        }
       } else {
         // 确认收藏
-        this.isCollection = true
+        const res = await this.$request('/storeGoods', { goodsId: this.oneGoodsMessage._id, storeMan: this.userInfo._id, isStore: true }, 'POST')
+        if (res.code) {
+          this.isCollection = true
+        } else {
+          this.$toast('收藏失败')
+        }
       }
     },
     // 购买按钮
-    buyGoods () {
+    async buyGoods () {
       if (!this.userInfo) {
         return this.$toast('请先登录')
       }
-      console.log(this.oneGoodsMessage)
+      // 购买之前判断这个物品是否是自己发布的，不能购买自己的
+      if (this.oneGoodsMessage.publisherId === this.userInfo._id) {
+        return this.$toast('不能购买自己的物品')
+      }
+      let that = this
+      wx.showModal({
+        title: '提示',
+        content: '确认要购买吗',
+        success: async res => {
+          if (res.confirm) {
+            const res = await that.$request('/buyGoods', { goodsId: that.oneGoodsMessage._id, buyer: that.userInfo._id }, 'POST')
+            if (res.code) {
+              that.$toast('购买成功', 'success')
+            } else {
+              that.$toast('购买失败')
+            }
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      })
     },
     // 获取猜你喜欢
     async getLove () {
