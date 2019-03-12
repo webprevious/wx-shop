@@ -19,7 +19,11 @@
       </picker>
       <div class="bussiness-wrap">
         <div class="text">交易方式</div>
-        <my-checkbox @selectChange="bussSelectChange"></my-checkbox>
+        <div class="my-checkbox">
+          <div class="item" :class="{'item-active': isSelectedBySelf}" @click="selectItem('byself')">自提</div>
+          <div class="item" :class="{'item-active': isSelectedByBoth}" @click="selectItem('byboth')">面交</div>
+          <div class="item" :class="{'item-active': isSelectedByExpress}" @click="selectItem('byexpress')">邮寄</div>
+        </div>
       </div>
       <div class="connect-wrap">
         <div class="connect-text">
@@ -36,7 +40,6 @@
 </template>
 
 <script>
-import MyCheckbox from '@/components/mycheckbox.vue'
 import utils from '@/utils/index.js'
 import { mapState } from 'vuex'
 export default {
@@ -65,8 +68,19 @@ export default {
     }
   },
   computed: {
+    // 计算联系方式
     isInputConnect () {
       return this.qq || this.wechat || this.phone
+    },
+    // 交易方式多选样式
+    isSelectedBySelf () {
+      return this.bussPath.includes('byself')
+    },
+    isSelectedByBoth () {
+      return this.bussPath.includes('byboth')
+    },
+    isSelectedByExpress () {
+      return this.bussPath.includes('byexpress')
     },
     ...mapState({
       userInfo: state => state.userInfo.userInfo
@@ -82,18 +96,10 @@ export default {
       }
     }
   },
-  components: {
-    MyCheckbox
-  },
   methods: {
     // 分类picker回调
     CategoryPickerChange (e) {
       this.categoryIndex = e.target.value
-    },
-    // 交易方式回调
-    bussSelectChange (value) {
-      // console.log(value)
-      this.bussPath = value
     },
     // 收集确认发布数据
     createReqData () {
@@ -149,7 +155,6 @@ export default {
         success (selectRes) {
           // console.log(selectRes)
           selectRes.tempFilePaths.forEach(item => {
-            // promiseArr.push(utils.uploadFile(item, that.upyun))
             that.wxLocalImgUrls.push(item)
           })
         },
@@ -183,14 +188,19 @@ export default {
         })
         // 请求后端接口发送物品信息
         let data = this.createReqData()
-        console.log(data)
+        // console.log(data)
         const result = await this.$request('/publishGoods', data, 'POST')
         if (result.code) {
           this.$toast('发布成功', 'success')
+          let that = this
           setTimeout(function () {
             wx.navigateTo({
               url: '/pages/home/main'
             })
+            // 初始化输入框，方便下次进入
+            setTimeout(function () {
+              that.initInput()
+            }, 100)
           }, 1500)
         } else {
           this.$toast('网络错误')
@@ -223,6 +233,40 @@ export default {
         })
       } else {
         this.$toast('网络错误')
+      }
+    },
+    // 初始化数据，清理缓存
+    initInput () {
+      this.goodsTitle = ''
+      this.goodsDesc = ''
+      this.goodsPrice = ''
+      // 交易方式选择结果
+      this.bussPath = []
+      this.qq = ''
+      this.wechat = ''
+      this.phone = ''
+      // 物品分类选择结果
+      this.categoryIndex = 0
+      // 物品分类选择器数组
+      this.objectArray = [{
+        id: '0',
+        name: '未选择'
+      }]
+      this.upyun = {}
+      // 上传成功的图片url地址
+      this.uploadSuccessImgsUrl = []
+      // 微信本地url用来展示提示用户体验，在用户确定发布的时候才去真实上传图片
+      this.wxLocalImgUrls = []
+      // 控制交易方式子组件清理缓存
+      this.isPublishSuccess = false
+    },
+    // 交易方式多选
+    selectItem (item) {
+      if (!this.bussPath.includes(item)) {
+        this.bussPath.push(item)
+      } else {
+        let index = this.bussPath.indexOf(item)
+        this.bussPath.splice(index, 1)
       }
     }
   },
@@ -382,6 +426,22 @@ export default {
   z-index: 2000;
   &:active {
     opacity: 0.6;
+  }
+}
+.my-checkbox {
+  display: flex;
+  flex-direction: row;
+  .item {
+    padding: 4rpx 12rpx;
+    border: 1px solid #ccc;
+    font-size: 26rpx;
+    color: #606266;
+    margin: 0 8rpx;
+    border-radius: 8rpx;
+  }
+  .item-active {
+    color: #f40!important;
+    border: 1px solid #f40!important;
   }
 }
 </style>
