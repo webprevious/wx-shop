@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="goods-list-wrap" v-if="goodsLists.length">
-      <div v-for="(item,index) in goodsLists" :key="index" class="goods-item" @click="goToGoodsDetail(item._id)">
+      <div v-for="(item,index) in goodsLists" :key="index" class="goods-item" @click="goToGoodsDetail(item)">
         <image class="goods-img" :src="item.goodsFirstPic"></image>
         <div class="goods-title">{{item.goodsTitle}}</div>
         <div class="goods-price-and-read">
@@ -18,25 +18,45 @@
 
 <script>
 import Price from '@/components/price.vue'
+import { mapActions } from 'vuex'
 export default {
   name: 'goods-list',
   components: {
     Price
   },
   props: {
+    // 父组件传进来的物品数组
     goodsLists: {
       type: Array,
       default: []
+    },
+    // 标识哪里使用了这个组件，如果是在首页使用应该使用navigate去跳转，详情页面应该是redirectTo
+    direction: {
+      type: String,
+      default: 'index'
     }
   },
   methods: {
-    async goToGoodsDetail (goodsId) {
-      const res = this.$request('/addGoodsViewTimes', { goodsId }, 'POST')
-      console.log(res)
-      wx.navigateTo({
-        url: '/pages/goodsdetail/main?goodsId=' + goodsId
-      })
-    }
+    async goToGoodsDetail (item) {
+      // 存入当前商品进入vuex
+      item.publishAt = item.publishAt.slice(0, 10)
+      this.saveCurrentGoodsMessage(item)
+      if (this.direction === 'index') {
+        wx.navigateTo({
+          url: '/pages/goodsdetail/main'
+        })
+      } else {
+        wx.redirectTo({
+          url: '/pages/goodsdetail/main'
+        })
+      }
+      // 浏览次数+1
+      const res = await this.$request('/addGoodsViewTimes', { goodsId: item._id }, 'POST')
+      if (!res.code) {
+        console.log(res, '记录浏览次数失败')
+      }
+    },
+    ...mapActions(['saveCurrentGoodsMessage'])
   }
 }
 </script>
