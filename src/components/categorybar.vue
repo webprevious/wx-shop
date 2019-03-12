@@ -33,7 +33,7 @@ export default {
     // 获取分类列表
     async getCategory () {
       const res = await this.$request('/getGoodsCateory')
-      console.log(res)
+      // console.log(res)
       res.data.forEach(item => {
         this.categoryArray.push({
           categoryId: item._id,

@@ -30,7 +30,7 @@ export default {
   methods: {
     // 点击广告轮播图进行跳转到相应商品
     goTo (goodsId) {
-      console.log(goodsId)
+      // console.log(goodsId)
       wx.navigateTo({
         url: '/pages/goodsdetail/main?goodsId=' + goodsId
       })
@@ -39,7 +39,7 @@ export default {
     async getCarousel () {
       const res = await this.$request('/getAdCarousel')
       if (res.code) {
-        console.log(res)
+        // console.log(res)
         res.data.forEach(item => {
           this.imgUrls.push({
             id: item.goodsId,

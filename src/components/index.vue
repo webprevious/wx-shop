@@ -37,7 +37,7 @@ export default {
       } else {
         this.goodsLists = []
       }
-      console.log(this.goodsLists)
+      // console.log(this.goodsLists)
     }
   },
   mounted () {
