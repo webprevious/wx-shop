@@ -1,6 +1,6 @@
 <template>
   <div class="my-buy-wrap">
-    <div class="my-buy-item" v-for="(item, index) in mySaleArray" :key="index">
+    <div class="my-buy-item" v-for="(item, index) in mySaleArray" :key="index" @click="goToDetail(item)">
       <img class="goods-img" :src="item.goodsFirstPic"/>
       <div class="goods-msg">
         <div class="goods-title">{{item.goodsTitle}}</div>
@@ -16,7 +16,7 @@
 
 <script>
 import Price from '@/components/price.vue'
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 export default {
   data () {
     return {
@@ -43,7 +43,15 @@ export default {
       } else {
         this.mySaleArray = []
       }
-    }
+    },
+    // 点击前往详情
+    goToDetail (item) {
+      this.saveCurrentGoodsMessage(item)
+      wx.navigateTo({
+        url: '/pages/goodsdetail/main?from=mysale'
+      })
+    },
+    ...mapActions(['saveCurrentGoodsMessage'])
   },
   mounted () {
     this.getMySale()
