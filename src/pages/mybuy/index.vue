@@ -1,6 +1,6 @@
 <template>
   <div class="my-buy-wrap">
-    <div class="my-buy-item" v-for="(item, index) in myBuyArray" :key="index">
+    <div class="my-buy-item" v-for="(item, index) in myBuyArray" :key="index" @click="goToDetail(item)">
       <img class="goods-img" :src="item.goodsFirstPic"/>
       <div class="goods-msg">
         <div class="goods-title">{{item.goodsTitle}}</div>
@@ -16,7 +16,7 @@
 
 <script>
 import Price from '@/components/price.vue'
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 export default {
   data () {
     return {
@@ -35,6 +35,7 @@ export default {
     // 获取我购买到的物品列表
     async getMyBuy () {
       const res = await this.$request('/getMyBuy', {userId: this.userInfo._id}, 'POST')
+      console.log(res)
       if (res.code) {
         this.myBuyArray = res.data.map(item => {
           item.publishAt = item.publishAt.slice(0, 10)
@@ -43,7 +44,15 @@ export default {
       } else {
         this.myBuyArray = []
       }
-    }
+    },
+    // 点击前往详情
+    goToDetail (item) {
+      this.saveCurrentGoodsMessage(item)
+      wx.navigateTo({
+        url: '/pages/goodsdetail/main?from=mybuy'
+      })
+    },
+    ...mapActions(['saveCurrentGoodsMessage'])
   },
   mounted () {
     this.getMyBuy()
