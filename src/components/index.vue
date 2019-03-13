@@ -3,7 +3,9 @@
     <search></search>
     <carousel></carousel>
     <category @tabChange="tabChange"></category>
-    <goods-list :goodsLists="goodsLists"></goods-list>
+    <div class="goods-list-wrap">
+      <goods-list :goodsLists="goodsLists"></goods-list>
+    </div>
   </div>
 </template>
 
@@ -48,6 +50,10 @@ export default {
 
 <style scoped lang="less">
 .app-home {
-  padding-bottom: 100rpx;
+  height: 100vh;
+  background: #F1F1F1;
+  .goods-list-wrap {
+    padding-bottom: 100rpx;
+  }
 }
 </style>
