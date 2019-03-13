@@ -1,5 +1,5 @@
 <template>
-  <div class="goods-detail-wrap">
+  <div class="goods-detail-wrap" :class="{'is-has-buy-collection': isBuySuccess}">
     <div class="publish-msg">
       <img class="publisher-avatar" :src="oneGoodsMessage.publisherId.avatarUrl"/>
       <div class="publisher-and-address">
@@ -26,7 +26,7 @@
       <text>猜你喜欢</text>
     </div>
     <goods-list :goodsLists="goodsLists" direction="detail"></goods-list>
-    <div class="collection-buy-bar">
+    <div v-if="isBuySuccess" class="collection-buy-bar">
       <div class="collection" @click="toCollection">
         <img class="icon" :src="collectionIconUrl">
         <text>收藏</text>
@@ -46,7 +46,10 @@ export default {
       // 收藏按钮样式控制
       isCollection: false,
       // 传入物品列表组件的数组
-      goodsLists: []
+      goodsLists: [],
+      // 如果购买成功或者已经购买隐藏收藏和购买按钮,这种情况只会出现在从我的购买进入
+      // 首页的时候不会出现这种情况，首先对于已经购买的物品是不会出现在首页展示的
+      isBuySuccess: true
     }
   },
   computed: {
@@ -87,8 +90,10 @@ export default {
       if (!this.userInfo) {
         return this.$toast('请先登录')
       }
+      console.log(this.oneGoodsMessage)
+      console.log(this.userInfo)
       // 收藏之前判断这个物品是否是自己发布的，不能收藏自己的
-      if (this.oneGoodsMessage.publisherId === this.userInfo._id) {
+      if (this.oneGoodsMessage.publisherId._id === this.userInfo._id) {
         return this.$toast('不能收藏自己的物品')
       }
       if (this.isCollection) {
@@ -115,7 +120,7 @@ export default {
         return this.$toast('请先登录')
       }
       // 购买之前判断这个物品是否是自己发布的，不能购买自己的
-      if (this.oneGoodsMessage.publisherId === this.userInfo._id) {
+      if (this.oneGoodsMessage.publisherId._id === this.userInfo._id) {
         return this.$toast('不能购买自己的物品')
       }
       let that = this
@@ -126,6 +131,7 @@ export default {
           if (res.confirm) {
             const res = await that.$request('/buyGoods', { goodsId: that.oneGoodsMessage._id, buyer: that.userInfo._id }, 'POST')
             if (res.code) {
+              that.isBuySuccess = false
               that.$toast('购买成功', 'success')
             } else {
               that.$toast('购买失败')
@@ -144,25 +150,48 @@ export default {
     },
     // 检查是否已经收藏
     async checkStore () {
+      // 检查之前判断这个物品是否是自己发布的，如果是自己发布的就不需要发送请求
+      if (this.oneGoodsMessage.publisherId._id === this.userInfo._id) {
+        return false
+      }
       const res = await this.$request('/judgeStore', { goodsId: this.oneGoodsMessage._id, storeMan: this.userInfo._id }, 'POST')
       if (res.code) {
-        this.isCollection = res.data.isStore
+        if (!res.data) {
+          this.isCollection = false
+        } else {
+          this.isCollection = res.data.isStore
+        }
       } else {
         this.isCollection = false
       }
     },
     // 初始化数据
     initData () {
+      // 数据复原
       this.isCollection = false
       this.goodsLists = []
+      this.isBuySuccess = true
+      // 开始检查从哪里来
+      if (this.$root.$mp.query.from === 'mybuy') {
+        this.isBuySuccess = false
+      } else if (this.$root.$mp.query.from === 'mypublish') {
+        this.isBuySuccess = false
+      } else if (this.$root.$mp.query.from === 'mystore') {
+        this.isBuySuccess = true
+        this.isCollection = true
+      } else if (this.$root.$mp.query.from === 'mysale') {
+        this.isBuySuccess = false
+      } else {
+        // 控制检查收藏发送
+        this.checkStore()
+      }
     }
   },
   mounted () {
     // 初始化
     this.initData()
-    // 未登录不会执行
+    // 未登录不会执行，干啥都要获取我喜欢
     this.getLove()
-    this.checkStore()
   }
 }
 </script>
@@ -170,7 +199,6 @@ export default {
 <style scoped lang="less">
 .goods-detail-wrap {
   width: 750rpx;
-  padding-bottom: 100rpx;
   .publish-msg {
     display: flex;
     flex-direction: row;
@@ -245,6 +273,7 @@ export default {
     justify-content: space-around;
     align-items: center;
     background: #fff;
+    border-top: 1px solid #eee;
     position: fixed;
     bottom: 0;
     left: 0;
@@ -261,5 +290,8 @@ export default {
       }
     }
   }
+}
+.is-has-buy-collection {
+  padding-bottom: 100rpx;
 }
 </style>
