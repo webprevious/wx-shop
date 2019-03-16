@@ -13,25 +13,10 @@ cd myproject
 yarn
 
 # 开发时构建
-npm dev
+npm run dev
 
 # 打包构建
-npm build
+npm run build
 
-# 指定平台的开发时构建(微信、百度、头条、支付宝)
-npm dev:wx
-npm dev:swan
-npm dev:tt
-npm dev:my
-
-# 指定平台的打包构建
-npm build:wx
-npm build:swan
-npm build:tt
-npm build:my
-
-# 生成 bundle 分析报告
-npm run build --report
-```
-
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+# 此版本目前只支持微信小程序，mpvue2.0支持支付宝小程序、百度小程序、头条小程序
+npm run dev:wx
