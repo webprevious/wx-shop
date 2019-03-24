@@ -123,23 +123,26 @@ export default {
       if (this.oneGoodsMessage.publisherId._id === this.userInfo._id) {
         return this.$toast('不能购买自己的物品')
       }
-      let that = this
-      wx.showModal({
-        title: '提示',
-        content: '确认要购买吗',
-        success: async res => {
-          if (res.confirm) {
-            const res = await that.$request('/buyGoods', { goodsId: that.oneGoodsMessage._id, buyer: that.userInfo._id }, 'POST')
-            if (res.code) {
-              that.isBuySuccess = false
-              that.$toast('购买成功', 'success')
-            } else {
-              that.$toast('购买失败')
-            }
-          } else if (res.cancel) {
-            console.log('用户点击取消')
-          }
-        }
+      // let that = this
+      // wx.showModal({
+      //   title: '提示',
+      //   content: '确认要购买吗',
+      //   success: async res => {
+      //     if (res.confirm) {
+      //       const res = await that.$request('/buyGoods', { goodsId: that.oneGoodsMessage._id, buyer: that.userInfo._id }, 'POST')
+      //       if (res.code) {
+      //         that.isBuySuccess = false
+      //         that.$toast('购买成功', 'success')
+      //       } else {
+      //         that.$toast('购买失败')
+      //       }
+      //     } else if (res.cancel) {
+      //       console.log('用户点击取消')
+      //     }
+      //   }
+      // })
+      wx.navigateTo({
+        url: '/pages/buydetail/main'
       })
     },
     // 获取猜你喜欢
