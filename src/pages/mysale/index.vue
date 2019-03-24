@@ -5,7 +5,7 @@
       <div class="goods-msg">
         <div class="goods-title">{{item.goodsTitle}}</div>
         <div class="buy-time-price">
-          <div class="time">出售于{{item.publishAt}}</div>
+          <div class="time">出售于{{item.buyAt}}</div>
           <price :price="String(item.goodsPrice)"></price>
         </div>
       </div>
@@ -38,6 +38,7 @@ export default {
       if (res.code) {
         this.mySaleArray = res.data.map(item => {
           item.publishAt = item.publishAt.slice(0, 10)
+          item.buyAt = item.buyAt.slice(0, 10)
           return item
         })
       } else {
