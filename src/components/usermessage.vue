@@ -108,6 +108,12 @@ export default {
       position: absolute;
       top: 56rpx;
       left: 40rpx;
+      .nickname {
+        width: 260rpx;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
       .address {
         font-size: 24rpx;
       }
