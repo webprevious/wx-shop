@@ -5,7 +5,7 @@
       <div class="goods-msg">
         <div class="goods-title">{{item.goodsTitle}}</div>
         <div class="buy-time-price">
-          <div class="time">收藏于{{item.publishAt}}</div>
+          <div class="time">收藏于{{item.storeAt}}</div>
           <price :price="String(item.goodsPrice)"></price>
         </div>
       </div>
@@ -35,9 +35,10 @@ export default {
     async getMyStore () {
       const res = await this.$request('/storeList', { storeMan: this.userInfo._id }, 'POST')
       if (res.code) {
-        console.log(res)
+        console.log(res, '777')
         this.myStoreArray = res.data.map(item => {
           item.goodsId.publishAt = item.goodsId.publishAt.slice(0, 10)
+          item.goodsId.storeAt = item.storeAt.slice(0, 10)
           return item.goodsId
         })
       } else {
