@@ -11,6 +11,8 @@ cd myproject
 
 # 安装依赖
 yarn
+或者
+npm install
 
 # 开发时构建
 npm run dev
