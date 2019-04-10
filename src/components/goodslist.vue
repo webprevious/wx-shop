@@ -39,6 +39,7 @@ export default {
   methods: {
     async goToGoodsDetail (item) {
       // 存入当前商品进入vuex
+      // console.log(item)
       item.publishAt = item.publishAt.slice(0, 10)
       this.saveCurrentGoodsMessage(item)
       if (this.direction === 'index') {
