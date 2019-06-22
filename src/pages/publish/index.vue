@@ -195,7 +195,7 @@ export default {
           let that = this
           setTimeout(function () {
             wx.navigateTo({
-              url: '/pages/home/main'
+              url: '/pages/home/main?from=publish'
             })
             // 初始化输入框，方便下次进入
             setTimeout(function () {

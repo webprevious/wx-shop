@@ -1,5 +1,6 @@
 <template>
   <div class="goods-detail-wrap" :class="{'is-has-buy-collection': isBuySuccess}">
+    <!-- 发布者信息 -->
     <div class="publish-msg">
       <img class="publisher-avatar" :src="oneGoodsMessage.publisherId.avatarUrl"/>
       <div class="publisher-and-address">
@@ -10,23 +11,34 @@
         </div>
       </div>
     </div>
+    <!-- 价格 -->
     <price :price="String(oneGoodsMessage.goodsPrice)"></price>
+    <!-- 物品信息标题详情交易方式 -->
     <div class="goods-title">{{oneGoodsMessage.goodsTitle}}</div>
     <div class="goods-detail">{{oneGoodsMessage.goodsDetailMsg}}</div>
     <div class="goods-buss">本交易支持{{bussPath}}</div>
+    <!-- 物品图片 -->
     <div class="goods-imgs">
       <img v-for="(item,index) in goodsImgs" :src="item" :key="index" class="img-item" mode="widthFix" :lazy-load="true">
     </div>
+    <!-- 发布者信息 -->
     <div class="publisher-introduction">
       <div class="name">{{oneGoodsMessage.publisherId.nickName}}</div>
       <div class="introduction">来自{{oneGoodsMessage.publisherId.province + oneGoodsMessage.publisherId.city}}的{{oneGoodsMessage.publisherId.gender === '1' ? '小男生' : '小天仙'}}一枚</div>
     </div>
+    <!-- 猜你喜欢随机推荐2个物品 -->
     <div class="love-wrap">
       <img src="../../../static/images/love.png" class="love-icon">
       <text>猜你喜欢</text>
     </div>
     <goods-list :goodsLists="goodsLists" direction="detail"></goods-list>
+    <!-- 底部收藏和购买操作 -->
+    <input type="text" :focus="isInputBBS" @focus="BBSInputFocus" v-show="isInputBBS">
     <div v-if="isBuySuccess" class="collection-buy-bar">
+      <!-- <div class="bbs" @click="clickBBS">
+        <van-icon name="comment-o" />
+        <span class="text">留言</span>
+      </div> -->
       <div class="collection" @click="toCollection">
         <img class="icon" :src="collectionIconUrl">
         <text>收藏</text>
@@ -49,7 +61,9 @@ export default {
       goodsLists: [],
       // 如果购买成功或者已经购买隐藏收藏和购买按钮,这种情况只会出现在从我的购买进入
       // 首页的时候不会出现这种情况，首先对于已经购买的物品是不会出现在首页展示的
-      isBuySuccess: true
+      isBuySuccess: true,
+      // 聚焦输入框输入
+      isInputBBS: false
     }
   },
   computed: {
@@ -123,24 +137,6 @@ export default {
       if (this.oneGoodsMessage.publisherId._id === this.userInfo._id) {
         return this.$toast('不能购买自己的物品')
       }
-      // let that = this
-      // wx.showModal({
-      //   title: '提示',
-      //   content: '确认要购买吗',
-      //   success: async res => {
-      //     if (res.confirm) {
-      //       const res = await that.$request('/buyGoods', { goodsId: that.oneGoodsMessage._id, buyer: that.userInfo._id }, 'POST')
-      //       if (res.code) {
-      //         that.isBuySuccess = false
-      //         that.$toast('购买成功', 'success')
-      //       } else {
-      //         that.$toast('购买失败')
-      //       }
-      //     } else if (res.cancel) {
-      //       console.log('用户点击取消')
-      //     }
-      //   }
-      // })
       wx.navigateTo({
         url: '/pages/buydetail/main'
       })
@@ -188,6 +184,15 @@ export default {
         // 控制检查收藏发送
         this.checkStore()
       }
+    },
+    // 留言输入框聚焦回调监听
+    BBSInputFocus (e) {
+      console.log(e)
+    },
+    // 点击留言按钮
+    clickBBS () {
+      console.log('点击了留言按钮')
+      this.isInputBBS = true
     }
   },
   mounted () {
@@ -195,6 +200,7 @@ export default {
     this.initData()
     // 未登录不会执行，干啥都要获取我喜欢
     this.getLove()
+    // 获取物品留言
   }
 }
 </script>
@@ -287,6 +293,15 @@ export default {
         height: 38rpx;
       }
       text {
+        font-size: 32rpx;
+        padding-left: 8rpx;
+        letter-spacing: 4rpx;
+      }
+    }
+    .bbs {
+      display: flex;
+      padding-top: 12rpx;
+      .text {
         font-size: 32rpx;
         padding-left: 8rpx;
         letter-spacing: 4rpx;

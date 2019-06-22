@@ -1,7 +1,11 @@
 <template>
   <div>
-    <index v-if="isSelected"></index>
-    <my v-else></my>
+    <div :class="{'is-show': !isSelected}">
+      <index :currentPage="currentPage" :pageSize="pageSzie" @categoryChange="categoryChange" @notMore="notMore"></index>
+    </div>
+    <div :class="{'is-show': isSelected}">
+      <my></my>
+    </div>
     <div class="tabbar">
       <div class="bar-item">
         <div class="wrap" @click="switchMyTab(1)">
@@ -43,7 +47,12 @@ export default {
       },
       publishItem: {
         iconPath: 'http://shopdev.test.upcdn.net/publish-active.png'
-      }
+      },
+      // 控制分页
+      currentPage: 1,
+      pageSzie: 4,
+      // 物品加载完毕了，没有更多时触发
+      tag: true
     }
   },
   components: {
@@ -77,12 +86,42 @@ export default {
         this.currentTab = 2
         this.$toast('请您先登录')
       }
+    },
+    // 分类发生改变回调
+    categoryChange () {
+      this.currentPage = 1
+      this.tag = true
+    },
+    // 没有更多物品回调
+    notMore () {
+      // console.log('没有了')
+      this.tag = false
+    }
+  },
+  // 上拉触底
+  onReachBottom () {
+    // console.log('触底')
+    if (this.tag) {
+      this.currentPage++
+    }
+  },
+  // 下拉刷新
+  onPullDownRefresh () {
+    console.log('下拉刷新')
+  },
+  mounted  () {
+    console.log(this.$root.$mp.query.from)
+    if (this.$root.$mp.query.from === 'publish') {
+      this.currentTab = 1
     }
   }
 }
 </script>
 
 <style scoped lang="less">
+.is-show {
+  display: none;
+}
 .tabbar {
   height: 100rpx;
   width: 750rpx;

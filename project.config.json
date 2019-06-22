@@ -13,6 +13,7 @@
 	"compileType": "miniprogram",
 	"appid": "wx1a79586e707aa4a0",
 	"projectname": "wx-mpvue",
+	"libVersion": "2.6.5",
 	"condition": {
 		"search": {
 			"current": -1,

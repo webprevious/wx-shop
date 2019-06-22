@@ -17,6 +17,7 @@
     "navigationBarTextStyle": "white"
   },
   "usingComponents": {
-    "van-button": "/static/vant-weapp/button/index"
+    "van-button": "/static/vant-weapp/button/index",
+    "van-icon": "/static/vant-weapp/icon/index"
   }
 }
